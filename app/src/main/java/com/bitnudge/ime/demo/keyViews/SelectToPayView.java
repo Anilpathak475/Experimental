@@ -4,6 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.SelectToPayAdapter;
@@ -19,6 +21,12 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.edt_search)
+    EditText edtSearch;
+
+    @BindView(R.id.img_back)
+    ImageView imgBack;
 
     private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
