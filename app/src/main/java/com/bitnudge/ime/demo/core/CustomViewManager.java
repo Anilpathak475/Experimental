@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.keyViews.PayView;
+import com.bitnudge.ime.demo.keyViews.SelectToPayView;
 import com.bitnudge.ime.demo.libs.Util;
 
 /**
@@ -23,6 +24,7 @@ public class CustomViewManager implements View.OnClickListener {
 
     private CustomIME mCustomIme;
     private PayView payView;
+    private SelectToPayView selectToPayView;
 
     private LinearLayout selectionBar;
     private ImageView selectedIcon;
@@ -39,6 +41,7 @@ public class CustomViewManager implements View.OnClickListener {
 
         ImageButton keyboardViewButton = topBarView.findViewById(R.id.gotoKeyboard);
         ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
+        ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_);
 
         selectionBar = topBarView.findViewById(R.id.selectionBar);
         selectedIcon = topBarView.findViewById(R.id.selectedIcon);

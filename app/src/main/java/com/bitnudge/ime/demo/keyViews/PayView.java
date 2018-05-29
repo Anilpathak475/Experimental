@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.bitnudge.ime.demo.Card;
+import com.bitnudge.ime.demo.modle.Card;
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.SpinnerAdapter;
 import com.bitnudge.ime.demo.core.CustomIME;

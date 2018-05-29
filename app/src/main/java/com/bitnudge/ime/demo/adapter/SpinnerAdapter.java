@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.bitnudge.ime.demo.Card;
+import com.bitnudge.ime.demo.modle.Card;
 import com.bitnudge.ime.demo.R;
 
 import java.util.List;

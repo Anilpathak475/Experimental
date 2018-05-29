@@ -1,4 +1,4 @@
-package com.bitnudge.ime.demo;
+package com.bitnudge.ime.demo.modle;
 
 public class Card {
     private String cardNo;
