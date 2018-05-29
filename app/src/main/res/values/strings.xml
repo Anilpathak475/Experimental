@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">SmartKey</string>
+    <string name="english_ime_name">BitNudge SmartKey</string>
+
+    <string name="demo_header">Demo</string>
+    <string name="demo_button_text">Some Button</string>
+    <string name="demo_placeholder">This will open the keyboard</string>
+</resources>

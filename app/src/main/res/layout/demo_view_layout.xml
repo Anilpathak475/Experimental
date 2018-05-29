@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.bobblekeyboard.ime.BobbleEditText
+            android:id="@+id/demo_text"
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textSize="12sp"
+            android:ems="10"
+            android:hint="@string/demo_placeholder"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="#0f0f0f" />
+
+        <Button
+            android:id="@+id/demo_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/demo_button_text"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>
