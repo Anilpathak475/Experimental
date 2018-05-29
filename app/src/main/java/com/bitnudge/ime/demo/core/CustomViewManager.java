@@ -41,7 +41,7 @@ public class CustomViewManager implements View.OnClickListener {
 
         ImageButton keyboardViewButton = topBarView.findViewById(R.id.gotoKeyboard);
         ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
-        ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_);
+        ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_btn_select_to_pay);
 
         selectionBar = topBarView.findViewById(R.id.selectionBar);
         selectedIcon = topBarView.findViewById(R.id.selectedIcon);
@@ -50,6 +50,7 @@ public class CustomViewManager implements View.OnClickListener {
         keyboardViewButton.setOnClickListener(this);
         imgBtnPay.setOnClickListener(this);
         topBarView.setOnClickListener(this);
+        imgBtnSelectToPay.setOnClickListener(this);
 
         try {
             mCustomIme.setTopBar(topBarView);
@@ -72,6 +73,9 @@ public class CustomViewManager implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.img_btn_pay:
                 showPayView();
+                break;
+            case R.id.img_btn_select_to_pay:
+                showSelectToPayView();
                 break;
             case R.id.top_bar_root:
                 try {
@@ -107,13 +111,27 @@ public class CustomViewManager implements View.OnClickListener {
         if (payView != null) payView.destroy();
         payView = null;
 
-        slideInSelectedBar("Demo", R.drawable.demo_icon);
+        slideInSelectedBar("Pay", R.drawable.demo_icon);
         payView = PayView.getInstance(mCustomIme);
 
         try {
             mCustomIme.showCustomView(payView.getView());
         } catch (Exception e) {
             Util.logException(TAG, "Pay View", e);
+        }
+    }
+
+    private void showSelectToPayView() {
+        if (selectToPayView != null) selectToPayView.destroy();
+        selectToPayView = null;
+
+        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        selectToPayView = SelectToPayView.getInstance(mCustomIme);
+
+        try {
+            mCustomIme.showCustomView(selectToPayView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
         }
     }
 }

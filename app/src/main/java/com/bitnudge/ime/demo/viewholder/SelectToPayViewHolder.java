@@ -3,6 +3,7 @@ package com.bitnudge.ime.demo.viewholder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bitnudge.ime.demo.R;
@@ -16,7 +17,7 @@ public class SelectToPayViewHolder extends RecyclerView.ViewHolder {
     public TextView txtName;
 
     @BindView(R.id.layout_parent)
-    public TextView layoutParent;
+    public LinearLayout layoutParent;
 
     @BindView(R.id.txt_card_no)
     public TextView txtCardName;
