@@ -5,11 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.bitnudge.ime.demo.modle.Card;
 import com.bitnudge.ime.demo.R;
+import com.bitnudge.ime.demo.adapter.CountrySpinnerAdapter;
 import com.bitnudge.ime.demo.adapter.SpinnerAdapter;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.libs.Util;
+import com.bitnudge.ime.demo.modle.Card;
+import com.bitnudge.ime.demo.modle.Country;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,9 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     @BindView(R.id.img_add_card)
     ImageView imgAddCard;
+
+    @BindView(R.id.img_country)
+    Spinner imgCountry;
 
     private CustomIME mCustomIme;
     private View v;
@@ -43,6 +48,12 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         cards.add(new Card("1234 5678 8907 4433"));
         spnCardDetails.setAdapter(new SpinnerAdapter(mCustomIme, R.layout.layout_spinner_item, cards));
 
+        List<Country> countries = new ArrayList<>();
+        countries.add(new Country("India", R.drawable.ic_united_states));
+        countries.add(new Country("Usa", R.drawable.ic_united_arab_emirates));
+        countries.add(new Country("England", R.drawable.exchange));
+        countries.add(new Country("Russia", R.drawable.add_payee));
+        imgCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
     }
 
     public View getView() {
