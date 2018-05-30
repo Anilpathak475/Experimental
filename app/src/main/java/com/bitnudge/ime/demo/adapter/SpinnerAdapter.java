@@ -8,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bitnudge.ime.demo.modle.Card;
 import com.bitnudge.ime.demo.R;
+import com.bitnudge.ime.demo.modle.Card;
 
 import java.util.List;
 
@@ -44,8 +45,11 @@ public class SpinnerAdapter extends ArrayAdapter<Card> {
 
     private View createItemView(int position, View convertView, ViewGroup parent) {
         final View view = mInflater.inflate(mResource, parent, false);
-        TextView textView = view.findViewById(R.id.txt_card_no);
-        textView.setText(extractLastFourDigits(cards.get(position).getCardNo()));
+        Card card = cards.get(position);
+        TextView txtCountryName = view.findViewById(R.id.txt_card_no);
+        ImageView imgIcon = view.findViewById(R.id.img_icon);
+        txtCountryName.setText(extractLastFourDigits(card.getCardNo()));
+        imgIcon.setBackground(mContext.getResources().getDrawable(card.getId()));
         return view;
     }
 

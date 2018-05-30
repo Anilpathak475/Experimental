@@ -16,8 +16,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="15dp"
                 android:background="@drawable/ic_back" />
 
@@ -160,6 +160,7 @@
                     android:elevation="5dp" />
 
                 <com.bobblekeyboard.ime.BobbleEditText
+                    android:id="@+id/edt_currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -259,6 +260,7 @@
 
 
                 <com.bobblekeyboard.ime.BobbleEditText
+                    android:id="@+id/edt_converting_rate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

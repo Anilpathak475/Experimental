@@ -7,5 +7,6 @@
     <color name="dark_grey">#4a4a4a</color>
     <color name="hint_color">#d1d1d6</color>
     <color name="green">#7bce1b</color>
+    <color name="chat_button_color">#1565C0</color>
 
 </resources>

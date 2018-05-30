@@ -17,6 +17,7 @@ public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHold
 
     private ClickListener clickListener;
     private List<PayTo> pays;
+    private Context context;
 
     public SelectToPayAdapter(List<PayTo> pays, ClickListener clickListener) {
         this.clickListener = clickListener;
@@ -26,6 +27,7 @@ public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHold
     @NonNull
     @Override
     public SelectToPayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
         LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.layout_select_to_pay_view_holder, parent, false);
         return new SelectToPayViewHolder(view);
@@ -33,6 +35,10 @@ public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SelectToPayViewHolder holder, final int position) {
+        PayTo payTo = pays.get(position);
+        holder.txtName.setText(payTo.getName());
+        holder.txtCardName.setText(payTo.getCard().getCardNo());
+        holder.imgIcon.setBackground(context.getResources().getDrawable(payTo.getCard().getId()));
         holder.imgInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +55,7 @@ public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHold
 
     @Override
     public int getItemCount() {
-        return 8;
+        return pays.size();
     }
 
 

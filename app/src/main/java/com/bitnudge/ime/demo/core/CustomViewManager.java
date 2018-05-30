@@ -14,10 +14,13 @@ import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.keyViews.AddBeneficiaryView;
 import com.bitnudge.ime.demo.keyViews.BotKeyView;
 import com.bitnudge.ime.demo.keyViews.PayView;
+import com.bitnudge.ime.demo.keyViews.PaymentDetailsView;
 import com.bitnudge.ime.demo.keyViews.RecevierDetailView;
 import com.bitnudge.ime.demo.keyViews.SelectToPayView;
 import com.bitnudge.ime.demo.keyViews.TransactionView;
 import com.bitnudge.ime.demo.libs.Util;
+import com.bitnudge.ime.demo.modle.PayTo;
+import com.bitnudge.ime.demo.modle.Transaction;
 
 /**
  * Created by Adhityan on 17/03/18.
@@ -32,6 +35,7 @@ public class CustomViewManager implements View.OnClickListener {
     private TransactionView transactionView;
     private AddBeneficiaryView addBeneficiaryView;
     private RecevierDetailView receiverDetailView;
+    private PaymentDetailsView paymentDetailsView;
     private BotKeyView botKeyView;
 
 
@@ -44,17 +48,18 @@ public class CustomViewManager implements View.OnClickListener {
         mCustomIme = customIME;
     }
 
+    public CustomIME getContext() {
+        return mCustomIme;
+    }
+
     public void addTopBarViewOnKeyboarBoardTop() {
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         LinearLayout topBarView = (LinearLayout) layoutInflater.inflate(R.layout.top_bar_view_layout, null);
 
         ImageButton keyboardViewButton = topBarView.findViewById(R.id.gotoKeyboard);
         ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
-        ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_btn_select_to_pay);
-        ImageButton imgBtnTransaction = topBarView.findViewById(R.id.img_btn_trasaction);
-        ImageButton imgBtnAddBenefeciary = topBarView.findViewById(R.id.img_btn_add_benefeciary);
-        ImageButton imgReceiverDetail = topBarView.findViewById(R.id.img_btn_receiver_detail);
         ImageButton imgBtnBot = topBarView.findViewById(R.id.img_btn_chat);
+        ImageButton imgHistory = topBarView.findViewById(R.id.img_btn_history);
 
         selectionBar = topBarView.findViewById(R.id.selectionBar);
         selectedIcon = topBarView.findViewById(R.id.selectedIcon);
@@ -63,10 +68,11 @@ public class CustomViewManager implements View.OnClickListener {
         keyboardViewButton.setOnClickListener(this);
         imgBtnPay.setOnClickListener(this);
         topBarView.setOnClickListener(this);
-        imgBtnSelectToPay.setOnClickListener(this);
+        imgHistory.setOnClickListener(this);
+       /* imgBtnSelectToPay.setOnClickListener(this);
         imgBtnTransaction.setOnClickListener(this);
         imgBtnAddBenefeciary.setOnClickListener(this);
-        imgReceiverDetail.setOnClickListener(this);
+        imgReceiverDetail.setOnClickListener(this);*/
         imgBtnBot.setOnClickListener(this);
 
         try {
@@ -91,7 +97,10 @@ public class CustomViewManager implements View.OnClickListener {
             case R.id.img_btn_pay:
                 showSelectToPayView();
                 break;
-            case R.id.img_btn_trasaction:
+            case R.id.img_btn_history:
+                showTransactionView();
+                break;
+          /*  case R.id.img_btn_trasaction:
                 showTransactionView();
                 break;
             case R.id.img_btn_receiver_detail:
@@ -99,7 +108,7 @@ public class CustomViewManager implements View.OnClickListener {
                 break;
             case R.id.img_btn_add_benefeciary:
                 showAddBeneficaryView();
-                break;
+                break;*/
             case R.id.img_btn_chat:
                 showBotView();
                 break;
@@ -132,7 +141,7 @@ public class CustomViewManager implements View.OnClickListener {
         selectionBar.setVisibility(View.GONE);
     }
 
-    private void restoreToSelectionBar() {
+    public void restoreToSelectionBar() {
         selectionBar.setVisibility(View.VISIBLE);
 
         try {
@@ -143,11 +152,11 @@ public class CustomViewManager implements View.OnClickListener {
         }
     }
 
-    private void showPayView() {
+    public void showPayView(PayTo payTo) {
         destroyViews();
 
         slideInSelectedBar("Pay", R.drawable.demo_icon);
-        payView = PayView.getInstance(mCustomIme);
+        payView = PayView.getInstance(this, payTo);
 
         try {
             mCustomIme.showCustomView(payView.getView());
@@ -156,11 +165,11 @@ public class CustomViewManager implements View.OnClickListener {
         }
     }
 
-    private void showSelectToPayView() {
+    public void showSelectToPayView() {
         destroyViews();
 
         slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
-        selectToPayView = SelectToPayView.getInstance(mCustomIme);
+        selectToPayView = SelectToPayView.getInstance(this);
 
         try {
             mCustomIme.showCustomView(selectToPayView.getView());
@@ -169,7 +178,7 @@ public class CustomViewManager implements View.OnClickListener {
         }
     }
 
-    private void showTransactionView() {
+    public void showTransactionView() {
         if (transactionView != null) transactionView.destroy();
         transactionView = null;
 
@@ -183,12 +192,12 @@ public class CustomViewManager implements View.OnClickListener {
         }
     }
 
-    private void showAddBeneficaryView() {
+    public void showAddBeneficaryView() {
         if (addBeneficiaryView != null) addBeneficiaryView.destroy();
         addBeneficiaryView = null;
 
         slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
-        addBeneficiaryView = AddBeneficiaryView.getInstance(mCustomIme);
+        addBeneficiaryView = AddBeneficiaryView.getInstance(this);
 
         try {
             mCustomIme.showCustomView(addBeneficiaryView.getView());
@@ -211,7 +220,7 @@ public class CustomViewManager implements View.OnClickListener {
         }
     }
 
-    private void showBotView() {
+    public void showBotView() {
         destroyViews();
 
         slideInSelectedBar("Chat", R.drawable.demo_icon);
@@ -219,6 +228,19 @@ public class CustomViewManager implements View.OnClickListener {
 
         try {
             mCustomIme.showCustomView(botKeyView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
+        }
+    }
+
+    public void showPaymentDetailsView(Transaction transaction) {
+        destroyViews();
+
+        slideInSelectedBar("Chat", R.drawable.demo_icon);
+        paymentDetailsView = PaymentDetailsView.getInstance(this, transaction);
+
+        try {
+            mCustomIme.showCustomView(paymentDetailsView.getView());
         } catch (Exception e) {
             Util.logException(TAG, "Select To Pay", e);
         }

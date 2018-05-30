@@ -10,12 +10,16 @@ import android.widget.ImageView;
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.SelectToPayAdapter;
 import com.bitnudge.ime.demo.core.CustomIME;
+import com.bitnudge.ime.demo.core.CustomViewManager;
+import com.bitnudge.ime.demo.modle.Card;
 import com.bitnudge.ime.demo.modle.PayTo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
@@ -28,19 +32,39 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
     @BindView(R.id.img_back)
     ImageView imgBack;
 
+    @BindView(R.id.img_add_payee)
+    ImageView imgAddPayee;
+
     private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
+    private CustomViewManager customViewManager;
     private View v;
+    private List<PayTo> payess;
 
-
-    private SelectToPayView(CustomIME context) {
-        this.mCustomIme = context;
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+    private SelectToPayView(CustomViewManager customViewManager) {
+        mCustomIme = customViewManager.getContext();
+        this.customViewManager = customViewManager;
+        LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_select_to_pay, null);
         ButterKnife.bind(this, v);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new SelectToPayAdapter(new ArrayList<PayTo>(), this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mCustomIme));
+        payess = new ArrayList<>();
 
+        payess.add(getPayTo("Anil Pathak", "1234 5678 9012 1223", R.drawable.icici));
+        payess.add(getPayTo("Braj B", "1234 5678 9012 4545", R.drawable.rbs));
+        payess.add(getPayTo("Yug", "1234 5678 9012 9876", R.drawable.hdfc));
+        payess.add(getPayTo("Braj b", "1234 5678 9012 5564", R.drawable.hsbc));
+        recyclerView.setAdapter(new SelectToPayAdapter(payess, this));
+
+    }
+
+    public static SelectToPayView getInstance(CustomViewManager context) {
+        return new SelectToPayView(context);
+    }
+
+    @OnClick(R.id.img_add_payee)
+    void onClickAdd() {
+        customViewManager.showAddBeneficaryView();
     }
 
     public View getView() {
@@ -51,18 +75,26 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
         mCustomIme = null;
     }
 
-    public static SelectToPayView getInstance(CustomIME context) {
-        return new SelectToPayView(context);
+    @OnClick(R.id.img_back)
+    void onClickBack() {
+        customViewManager.showSelectToPayView();
     }
-
 
     @Override
     public void onItemClick(int position) {
-
+        customViewManager.showPayView(payess.get(position));
     }
 
     @Override
     public void onInfoClick(int position) {
 
+    }
+
+    private PayTo getPayTo(String name, String cardNo, int id) {
+        PayTo payTo = new PayTo();
+        payTo.setName(name);
+        Card card = new Card(cardNo, id);
+        payTo.setCard(card);
+        return payTo;
     }
 }

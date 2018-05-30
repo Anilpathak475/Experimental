@@ -25,6 +25,9 @@ public class SelectToPayViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.img_info)
     public ImageView imgInfo;
 
+    @BindView(R.id.img_icon)
+    public ImageView imgIcon;
+
 
     public SelectToPayViewHolder(final View itemView) {
         super(itemView);
