@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bitnudge.ime.demo.R;
+import com.bitnudge.ime.demo.keyViews.AddBeneficiaryView;
 import com.bitnudge.ime.demo.keyViews.PayView;
+import com.bitnudge.ime.demo.keyViews.RecevierDetailView;
 import com.bitnudge.ime.demo.keyViews.SelectToPayView;
 import com.bitnudge.ime.demo.keyViews.TransactionView;
 import com.bitnudge.ime.demo.libs.Util;
@@ -27,6 +29,8 @@ public class CustomViewManager implements View.OnClickListener {
     private PayView payView;
     private SelectToPayView selectToPayView;
     private TransactionView transactionView;
+    private AddBeneficiaryView addBeneficiaryView;
+    private RecevierDetailView receiverDetailView;
 
     private LinearLayout selectionBar;
     private ImageView selectedIcon;
@@ -45,6 +49,8 @@ public class CustomViewManager implements View.OnClickListener {
         ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
         ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_btn_select_to_pay);
         ImageButton imgBtnTransaction = topBarView.findViewById(R.id.img_btn_trasaction);
+        ImageButton imgBtnAddBenefeciary = topBarView.findViewById(R.id.img_btn_add_benefeciary);
+        ImageButton imgReceiverDetail = topBarView.findViewById(R.id.img_btn_receiver_detail);
 
         selectionBar = topBarView.findViewById(R.id.selectionBar);
         selectedIcon = topBarView.findViewById(R.id.selectedIcon);
@@ -55,6 +61,8 @@ public class CustomViewManager implements View.OnClickListener {
         topBarView.setOnClickListener(this);
         imgBtnSelectToPay.setOnClickListener(this);
         imgBtnTransaction.setOnClickListener(this);
+        imgBtnAddBenefeciary.setOnClickListener(this);
+        imgReceiverDetail.setOnClickListener(this);
 
         try {
             mCustomIme.setTopBar(topBarView);
@@ -66,7 +74,6 @@ public class CustomViewManager implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (!v.isEnabled()) return;
-
         AudioManager am = (AudioManager) mCustomIme.getSystemService(Context.AUDIO_SERVICE);
         try {
             if (am != null) am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, 0.9f);
@@ -83,6 +90,12 @@ public class CustomViewManager implements View.OnClickListener {
                 break;
             case R.id.img_btn_trasaction:
                 showTransactionView();
+                break;
+            case R.id.img_btn_receiver_detail:
+                showReceiverDetailView();
+                break;
+            case R.id.img_btn_add_benefeciary:
+                showAddBeneficaryView();
                 break;
             case R.id.top_bar_root:
                 try {
@@ -151,6 +164,34 @@ public class CustomViewManager implements View.OnClickListener {
 
         try {
             mCustomIme.showCustomView(transactionView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
+        }
+    }
+
+    private void showAddBeneficaryView() {
+        if (addBeneficiaryView != null) addBeneficiaryView.destroy();
+        addBeneficiaryView = null;
+
+        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        addBeneficiaryView = AddBeneficiaryView.getInstance(mCustomIme);
+
+        try {
+            mCustomIme.showCustomView(addBeneficiaryView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
+        }
+    }
+
+    private void showReceiverDetailView() {
+        if (receiverDetailView != null) receiverDetailView.destroy();
+        receiverDetailView = null;
+
+        slideInSelectedBar("Receiver Detail", R.drawable.demo_icon);
+        receiverDetailView = RecevierDetailView.getInstance(mCustomIme);
+
+        try {
+            mCustomIme.showCustomView(receiverDetailView.getView());
         } catch (Exception e) {
             Util.logException(TAG, "Select To Pay", e);
         }

@@ -16,4 +16,9 @@
     <style name="SpinnerwithNoArrow" parent="@android:style/Widget.Spinner">
         <item name="android:background">@android:drawable/edit_text</item>
     </style>
+
+
+    <style name="radio_button_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/custom_btn_radio</item>
+    </style>
 </resources>
