@@ -19,12 +19,12 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="@drawable/topbar_button_background"
-            android:padding="3dp"
+            android:padding="6dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/demo_icon" />
+            android:src="@drawable/moneygram_logo" />
 
         <ImageButton
-            android:id="@+id/img_btn_select_to_pay"
+            android:id="@+id/img_btn_chat"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
@@ -62,6 +62,7 @@
             android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/demo_icon" />
+            android:src="@drawable/bot_icon" />
     </LinearLayout>
 
     <LinearLayout
