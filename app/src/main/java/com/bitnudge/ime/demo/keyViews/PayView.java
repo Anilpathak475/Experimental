@@ -52,7 +52,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         countries.add(new Country("India", R.drawable.ic_united_states));
         countries.add(new Country("Usa", R.drawable.ic_united_arab_emirates));
         countries.add(new Country("England", R.drawable.exchange));
-        countries.add(new Country("Russia", R.drawable.add_payee));
+        countries.add(new Country("Russia", R.drawable.ic_add));
         imgCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
     }
 

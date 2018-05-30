@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.keyViews.PayView;
 import com.bitnudge.ime.demo.keyViews.SelectToPayView;
+import com.bitnudge.ime.demo.keyViews.TransactionView;
 import com.bitnudge.ime.demo.libs.Util;
 
 /**
@@ -25,6 +26,7 @@ public class CustomViewManager implements View.OnClickListener {
     private CustomIME mCustomIme;
     private PayView payView;
     private SelectToPayView selectToPayView;
+    private TransactionView transactionView;
 
     private LinearLayout selectionBar;
     private ImageView selectedIcon;
@@ -42,6 +44,7 @@ public class CustomViewManager implements View.OnClickListener {
         ImageButton keyboardViewButton = topBarView.findViewById(R.id.gotoKeyboard);
         ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
         ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_btn_select_to_pay);
+        ImageButton imgBtnTransaction = topBarView.findViewById(R.id.img_btn_trasaction);
 
         selectionBar = topBarView.findViewById(R.id.selectionBar);
         selectedIcon = topBarView.findViewById(R.id.selectedIcon);
@@ -51,6 +54,7 @@ public class CustomViewManager implements View.OnClickListener {
         imgBtnPay.setOnClickListener(this);
         topBarView.setOnClickListener(this);
         imgBtnSelectToPay.setOnClickListener(this);
+        imgBtnTransaction.setOnClickListener(this);
 
         try {
             mCustomIme.setTopBar(topBarView);
@@ -76,6 +80,9 @@ public class CustomViewManager implements View.OnClickListener {
                 break;
             case R.id.img_btn_select_to_pay:
                 showSelectToPayView();
+                break;
+            case R.id.img_btn_trasaction:
+                showTransactionView();
                 break;
             case R.id.top_bar_root:
                 try {
@@ -130,6 +137,20 @@ public class CustomViewManager implements View.OnClickListener {
 
         try {
             mCustomIme.showCustomView(selectToPayView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
+        }
+    }
+
+    private void showTransactionView() {
+        if (transactionView != null) transactionView.destroy();
+        transactionView = null;
+
+        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        transactionView = TransactionView.getInstance(mCustomIme);
+
+        try {
+            mCustomIme.showCustomView(transactionView.getView());
         } catch (Exception e) {
             Util.logException(TAG, "Select To Pay", e);
         }
