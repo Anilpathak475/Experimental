@@ -21,10 +21,11 @@ import com.bitnudge.ime.demo.libs.Util;
 
 public class CustomViewManager implements View.OnClickListener {
     private String TAG = this.getClass().getSimpleName();
-
     private CustomIME mCustomIme;
+
     private PayView payView;
     private SelectToPayView selectToPayView;
+
 
     private LinearLayout selectionBar;
     private ImageView selectedIcon;
@@ -41,7 +42,7 @@ public class CustomViewManager implements View.OnClickListener {
 
         ImageButton keyboardViewButton = topBarView.findViewById(R.id.gotoKeyboard);
         ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
-        ImageButton imgBtnSelectToPay = topBarView.findViewById(R.id.img_btn_select_to_pay);
+        ImageButton imgBtnBot = topBarView.findViewById(R.id.img_btn_chat);
 
         selectionBar = topBarView.findViewById(R.id.selectionBar);
         selectedIcon = topBarView.findViewById(R.id.selectedIcon);
@@ -50,7 +51,7 @@ public class CustomViewManager implements View.OnClickListener {
         keyboardViewButton.setOnClickListener(this);
         imgBtnPay.setOnClickListener(this);
         topBarView.setOnClickListener(this);
-        imgBtnSelectToPay.setOnClickListener(this);
+        imgBtnBot.setOnClickListener(this);
 
         try {
             mCustomIme.setTopBar(topBarView);
@@ -72,9 +73,9 @@ public class CustomViewManager implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.img_btn_pay:
-                showPayView();
+                showSelectToPayView();
                 break;
-            case R.id.img_btn_select_to_pay:
+            case R.id.img_btn_chat:
                 showSelectToPayView();
                 break;
             case R.id.top_bar_root:
@@ -88,6 +89,16 @@ public class CustomViewManager implements View.OnClickListener {
                 restoreToSelectionBar();
                 break;
         }
+    }
+
+    private void destroyViews() {
+        if (payView != null) payView.destroy();
+        payView = null;
+
+        if (selectToPayView != null) selectToPayView.destroy();
+        selectToPayView = null;
+
+
     }
 
     private void slideInSelectedBar(String title, int icon) {
@@ -108,8 +119,7 @@ public class CustomViewManager implements View.OnClickListener {
     }
 
     private void showPayView() {
-        if (payView != null) payView.destroy();
-        payView = null;
+        destroyViews();
 
         slideInSelectedBar("Pay", R.drawable.demo_icon);
         payView = PayView.getInstance(mCustomIme);
@@ -122,8 +132,20 @@ public class CustomViewManager implements View.OnClickListener {
     }
 
     private void showSelectToPayView() {
-        if (selectToPayView != null) selectToPayView.destroy();
-        selectToPayView = null;
+        destroyViews();
+
+        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        selectToPayView = SelectToPayView.getInstance(mCustomIme);
+
+        try {
+            mCustomIme.showCustomView(selectToPayView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
+        }
+    }
+
+    private void showBotView() {
+        destroyViews();
 
         slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
         selectToPayView = SelectToPayView.getInstance(mCustomIme);

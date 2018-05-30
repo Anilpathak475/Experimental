@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "0.2.2"
+
+        consumerProguardFiles 'proguard.txt'
+    }
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+}
+
+publish {
+    groupId = 'com.github.stfalcon'
+    artifactId = 'chatkit'
+    publishVersion = '0.2.2'
+    desc = 'ChatKit - is a library designed to simplify the development of UI for such a trivial task as chat. It have flexible possibilities for styling, customizing and data management'
+    licences = ['Apache-2.0']
+    uploadName = 'ChatKit'
+    website = 'https://github.com/stfalcon-studio/ChatKit.git'
+}
+
+ext {
+    supportVersion = '27.1.1'
+    flexboxVersion = '0.3.2'
+    frescoVersion = '1.8.1'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    implementation "com.google.android:flexbox:$flexboxVersion"
+    implementation "com.facebook.fresco:fresco:$frescoVersion"
+    implementation project(':bobbleandroidime_sdk')
+}

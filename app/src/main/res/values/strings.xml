@@ -8,5 +8,5 @@
     <string name="demo_button_text">Some Button</string>
     <string name="demo_placeholder">This will open the keyboard</string>
     <string name="text_with_bullet">\u2022\u2022</string>
-
+    <string name="chat_hint">What do you want to know about?</string>
 </resources>

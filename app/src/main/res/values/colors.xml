@@ -4,5 +4,5 @@
     <color name="light_grey">#dfdfdf</color>
     <color name="light_background">#EFEFF3</color>
     <color name="red">#da291c</color>
-
+    <color name="chat_button_color">#1565C0</color>
 </resources>

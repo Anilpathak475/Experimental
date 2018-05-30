@@ -1,1 +1,1 @@
-include ':app', ':bobbleandroidime_sdk'
+include ':app', ':bobbleandroidime_sdk', ':chatkit'
