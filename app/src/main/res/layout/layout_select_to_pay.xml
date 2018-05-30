@@ -15,20 +15,23 @@
             android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/left" />
+            android:background="@drawable/left"
+            android:elevation="10dp" />
 
         <ImageView
             android:id="@+id/img_add_payee"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-            android:background="@drawable/add_payee" />
+            android:background="@drawable/add_payee"
+            android:elevation="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="10dp"
             android:background="@drawable/border"
+            android:elevation="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
