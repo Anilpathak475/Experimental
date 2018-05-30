@@ -12,4 +12,8 @@
         <item name="overlapAnchor">true</item>
         <item name="android:background">@drawable/spinner_background</item>
     </style>
+
+    <style name="SpinnerwithNoArrow" parent="@android:style/Widget.Spinner">
+        <item name="android:background">@android:drawable/edit_text</item>
+    </style>
 </resources>

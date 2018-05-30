@@ -3,15 +3,15 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/white_circle_big"
         android:elevation="15dp" />
 
     <ImageView
         android:id="@+id/img_country_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerInParent="true"
         android:background="@drawable/ic_united_states"
         android:elevation="17dp" />
