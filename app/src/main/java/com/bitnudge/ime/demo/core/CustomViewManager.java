@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bitnudge.ime.demo.R;
+import com.bitnudge.ime.demo.keyViews.BotKeyView;
 import com.bitnudge.ime.demo.keyViews.PayView;
 import com.bitnudge.ime.demo.keyViews.SelectToPayView;
 import com.bitnudge.ime.demo.libs.Util;
@@ -25,6 +26,7 @@ public class CustomViewManager implements View.OnClickListener {
 
     private PayView payView;
     private SelectToPayView selectToPayView;
+    private BotKeyView botKeyView;
 
 
     private LinearLayout selectionBar;
@@ -76,7 +78,7 @@ public class CustomViewManager implements View.OnClickListener {
                 showSelectToPayView();
                 break;
             case R.id.img_btn_chat:
-                showSelectToPayView();
+                showBotView();
                 break;
             case R.id.top_bar_root:
                 try {
@@ -147,11 +149,11 @@ public class CustomViewManager implements View.OnClickListener {
     private void showBotView() {
         destroyViews();
 
-        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
-        selectToPayView = SelectToPayView.getInstance(mCustomIme);
+        slideInSelectedBar("Chat", R.drawable.demo_icon);
+        botKeyView = BotKeyView.getInstance(mCustomIme);
 
         try {
-            mCustomIme.showCustomView(selectToPayView.getView());
+            mCustomIme.showCustomView(botKeyView.getView());
         } catch (Exception e) {
             Util.logException(TAG, "Select To Pay", e);
         }
