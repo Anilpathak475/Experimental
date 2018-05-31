@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.keyViews.AddBeneficiaryView;
 import com.bitnudge.ime.demo.keyViews.BotKeyView;
+import com.bitnudge.ime.demo.keyViews.MPinView;
 import com.bitnudge.ime.demo.keyViews.PayView;
 import com.bitnudge.ime.demo.keyViews.PaymentDetailsView;
 import com.bitnudge.ime.demo.keyViews.RecevierDetailView;
@@ -37,6 +38,7 @@ public class CustomViewManager implements View.OnClickListener {
     private RecevierDetailView receiverDetailView;
     private PaymentDetailsView paymentDetailsView;
     private BotKeyView botKeyView;
+    private MPinView mPinView;
 
 
     private LinearLayout selectionBar;
@@ -69,12 +71,10 @@ public class CustomViewManager implements View.OnClickListener {
         imgBtnPay.setOnClickListener(this);
         topBarView.setOnClickListener(this);
         imgHistory.setOnClickListener(this);
-       /* imgBtnSelectToPay.setOnClickListener(this);
-        imgBtnTransaction.setOnClickListener(this);
-        imgBtnAddBenefeciary.setOnClickListener(this);
-        imgReceiverDetail.setOnClickListener(this);*/
         imgBtnBot.setOnClickListener(this);
-
+        if (mCustomIme.isInputViewShown()) {
+            mCustomIme.hideWindow();
+        }
         try {
             mCustomIme.setTopBar(topBarView);
         } catch (Exception e) {
@@ -95,20 +95,11 @@ public class CustomViewManager implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.img_btn_pay:
-                showSelectToPayView();
+                showMPinView();
                 break;
             case R.id.img_btn_history:
                 showTransactionView();
                 break;
-          /*  case R.id.img_btn_trasaction:
-                showTransactionView();
-                break;
-            case R.id.img_btn_receiver_detail:
-                showReceiverDetailView();
-                break;
-            case R.id.img_btn_add_benefeciary:
-                showAddBeneficaryView();
-                break;*/
             case R.id.img_btn_chat:
                 showBotView();
                 break;
@@ -167,7 +158,7 @@ public class CustomViewManager implements View.OnClickListener {
 
     public void showSelectToPayView() {
         destroyViews();
-
+        addTopBarViewOnKeyboarBoardTop();
         slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
         selectToPayView = SelectToPayView.getInstance(this);
 
@@ -241,6 +232,19 @@ public class CustomViewManager implements View.OnClickListener {
 
         try {
             mCustomIme.showCustomView(paymentDetailsView.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "Select To Pay", e);
+        }
+    }
+
+    public void showMPinView() {
+        destroyViews();
+
+        slideInSelectedBar("Chat", R.drawable.demo_icon);
+        mPinView = MPinView.getInstance(this);
+
+        try {
+            mCustomIme.setTopBar(mPinView.getView());
         } catch (Exception e) {
             Util.logException(TAG, "Select To Pay", e);
         }
