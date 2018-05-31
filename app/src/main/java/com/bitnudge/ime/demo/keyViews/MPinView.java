@@ -56,7 +56,10 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
     @OnClick(R.id.img_next)
     void onCLickNext() {
         if (edtPassword.getText().length() == 6) {
+            edtPassword.clearFocus();
+            customViewManager.restoreToSelectionBar();
             customViewManager.showSelectToPayView();
+            mCustomIme.onFinishInput();
         } else {
             Toast.makeText(mCustomIme, "Passowrd must contains 6 digits", Toast.LENGTH_SHORT).show();
         }

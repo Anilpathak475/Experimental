@@ -134,7 +134,6 @@ public class CustomViewManager implements View.OnClickListener {
 
     public void restoreToSelectionBar() {
         selectionBar.setVisibility(View.VISIBLE);
-
         try {
             mCustomIme.restoreInputTarget();
             mCustomIme.showKeyboardView();
@@ -144,8 +143,8 @@ public class CustomViewManager implements View.OnClickListener {
     }
 
     public void showPayView(PayTo payTo) {
+        restoreToSelectionBar();
         destroyViews();
-
         slideInSelectedBar("Pay", R.drawable.demo_icon);
         payView = PayView.getInstance(this, payTo);
 
