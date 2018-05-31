@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.bitnudge.ime.demo.R;
@@ -22,8 +23,24 @@ public class AddBeneficiaryView {
     @BindView(R.id.spn_country_code)
     Spinner spnCountryCode;
 
+    @BindView(R.id.edt_first_name)
+    EditText edtFirstname;
+
+    @BindView(R.id.edt_last_name)
+    EditText edtLastName;
+
+    @BindView(R.id.edt_phone)
+    EditText edtPhone;
+
+    @BindView(R.id.edt_receiving_country)
+    EditText edtReceivingCountry;
+
+    @BindView(R.id.edt_email)
+    EditText edtEmail;
+
     @BindView(R.id.btn_next)
     Button btnNext;
+
     private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
@@ -63,5 +80,12 @@ public class AddBeneficiaryView {
 
     public void destroy() {
         mCustomIme = null;
+        edtEmail = null;
+        edtFirstname = null;
+        edtLastName = null;
+        edtPhone = null;
+        edtReceivingCountry = null;
+        btnNext = null;
+        spnCountryCode = null;
     }
 }

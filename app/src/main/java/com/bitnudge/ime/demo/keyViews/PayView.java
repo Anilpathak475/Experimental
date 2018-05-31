@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -54,6 +55,9 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     @BindView(R.id.edt_converting_rate)
     EditText edtConvertingRate;
 
+    @BindView(R.id.layout_parent)
+    ScrollView layoutParent;
+
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
     private PayTo payTo;
@@ -91,6 +95,13 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     public void destroy() {
         mCustomIme = null;
+        edtConvertingRate = null;
+        edtCurrency = null;
+        txtCardNo = null;
+        spnCardDetails = null;
+        imgIcon = null;
+        imgCountry = null;
+        imgAddCard = null;
     }
 
     private void setDefaultAdapter() {
@@ -149,6 +160,8 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            layoutParent.startAnimation(Util.hideView());
+            layoutParent.setVisibility(View.GONE);
             Transaction transaction = new Transaction();
             transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
             transaction.setAmount(edtConvertingRate.getText().toString());

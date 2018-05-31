@@ -65,6 +65,10 @@ public class TransactionView implements TransactionAdapter.ClickListener {
 
     public void destroy() {
         mCustomIme = null;
+        recyclerView = null;
+        edtSearch = null;
+        spnStatus = null;
+        imgBack = null;
     }
 
     @Override

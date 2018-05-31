@@ -62,6 +62,9 @@ public class BotKeyView implements View.OnClickListener, MessageInput.InputListe
 
     public void destroy() {
         mCustomIme = null;
+        flow = null;
+        chatMessage = null;
+        adapter = null;
     }
 
     public static BotKeyView getInstance(CustomIME context) {

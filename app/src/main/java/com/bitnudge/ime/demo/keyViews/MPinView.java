@@ -3,6 +3,7 @@ package com.bitnudge.ime.demo.keyViews;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
@@ -27,6 +28,9 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
     @BindView(R.id.img_next)
     ImageView imgNext;
 
+    @BindView(R.id.layout_parent)
+    RelativeLayout layoutParent;
+
 
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
@@ -49,6 +53,15 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     @OnClick(R.id.img_back)
     void onCLickBack() {
+        edtPassword.clearFocus();
+        mCustomIme.onFinishInput();
+        try {
+            mCustomIme.restoreInputTarget();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        layoutParent.startAnimation(Util.hideView());
+        layoutParent.setVisibility(View.GONE);
         customViewManager.restoreToSelectionBar();
         customViewManager.addTopBarViewOnKeyboarBoardTop();
     }
@@ -57,11 +70,16 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
     void onCLickNext() {
         if (edtPassword.getText().length() == 6) {
             edtPassword.clearFocus();
-            customViewManager.restoreToSelectionBar();
+            try {
+                mCustomIme.restoreInputTarget();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            layoutParent.startAnimation(Util.hideView());
+            layoutParent.setVisibility(View.GONE);
             customViewManager.showSelectToPayView();
-            mCustomIme.onFinishInput();
         } else {
-            Toast.makeText(mCustomIme, "Passowrd must contains 6 digits", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mCustomIme, "Password must contains 6 digits", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -71,6 +89,10 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     public void destroy() {
         mCustomIme = null;
+        edtPassword = null;
+        imgBack = null;
+        imgNext = null;
+        layoutParent = null;
     }
 
     @Override

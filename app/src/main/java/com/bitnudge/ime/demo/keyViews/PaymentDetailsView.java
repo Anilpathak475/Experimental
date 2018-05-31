@@ -4,11 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
+import com.bitnudge.ime.demo.libs.Util;
 import com.bitnudge.ime.demo.modle.Transaction;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +45,8 @@ public class PaymentDetailsView {
     Button btnLiveChat;
     @BindView(R.id.btn__update_info)
     Button btnUpdateInfo;
+    @BindView(R.id.layout_parent)
+    ScrollView layoutParent;
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
     private View v;
@@ -76,11 +80,15 @@ public class PaymentDetailsView {
 
     @OnClick(R.id.btn_live_chat)
     void onChat() {
+        layoutParent.startAnimation(Util.hideView());
+        layoutParent.setVisibility(View.GONE);
         customViewManager.showBotView();
     }
 
     @OnClick(R.id.btn__update_info)
     void onUpdate() {
+        layoutParent.startAnimation(Util.hideView());
+        layoutParent.setVisibility(View.GONE);
         customViewManager.showBotView();
     }
 
@@ -90,6 +98,15 @@ public class PaymentDetailsView {
 
     public void destroy() {
         mCustomIme = null;
+        txtDay = null;
+        txtDate = null;
+        txtReason = null;
+        txtStatus = null;
+        txtPaymentAmount = null;
+        txtCardNo = null;
+        txtPayName = null;
+        btnLiveChat = null;
+        btnUpdateInfo = null;
     }
 
     public String getDateFromDate(Date date) {

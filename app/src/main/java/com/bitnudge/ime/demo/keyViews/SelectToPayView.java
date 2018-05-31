@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.SelectToPayAdapter;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
+import com.bitnudge.ime.demo.libs.Util;
 import com.bitnudge.ime.demo.modle.Card;
 import com.bitnudge.ime.demo.modle.PayTo;
 
@@ -34,6 +36,9 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     @BindView(R.id.img_add_payee)
     ImageView imgAddPayee;
+
+    @BindView(R.id.layout_parent)
+    LinearLayout layoutParent;
 
     private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
@@ -73,6 +78,10 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     public void destroy() {
         mCustomIme = null;
+        recyclerView = null;
+        edtSearch = null;
+        imgAddPayee = null;
+        layoutParent = null;
     }
 
     @OnClick(R.id.img_back)
@@ -82,6 +91,8 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     @Override
     public void onItemClick(int position) {
+        layoutParent.startAnimation(Util.hideView());
+        layoutParent.setVisibility(View.GONE);
         customViewManager.showPayView(payess.get(position));
     }
 

@@ -24,6 +24,7 @@ public class CustomIME extends BobbleIME {
         mCustomViewManager = new CustomViewManager(this);
     }
 
+
     @Override
     protected void onStartIME() {
         mCustomViewManager.addTopBarViewOnKeyboarBoardTop();
