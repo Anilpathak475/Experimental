@@ -74,6 +74,11 @@ public class AddBeneficiaryView {
         customViewManager.showSelectToPayView();
     }
 
+    @OnClick(R.id.img_back)
+    void onClickBack() {
+        customViewManager.showSelectToPayView();
+    }
+
     public View getView() {
         return v;
     }

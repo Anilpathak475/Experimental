@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_parent"
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="10dp"
-    android:id="@+id/layout_parent"
     android:background="@color/white">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,15 +41,15 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:background="@android:color/transparent"
-                android:ems="6"
-                android:hint="Enter Your MPin"
+                android:ems="4"
+                android:hint="Enter Your Mpin"
                 android:imeOptions="actionNext"
                 android:inputType="numberPassword"
-                android:maxEms="6"
-                android:maxLength="6"
+                android:maxEms="4"
+                android:maxLength="4"
                 android:maxLines="1"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </RelativeLayout>
 
 

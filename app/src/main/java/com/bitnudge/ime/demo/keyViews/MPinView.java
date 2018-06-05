@@ -1,9 +1,13 @@
 package com.bitnudge.ime.demo.keyViews;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
@@ -16,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MPinView implements View.OnClickListener, View.OnFocusChangeListener {
+public class MPinView implements View.OnClickListener, View.OnFocusChangeListener, EditText.OnKeyListener {
 
     private final String TAG = getClass().getName();
     @BindView(R.id.edt_password)
@@ -44,7 +48,17 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
         ButterKnife.bind(this, v);
         edtPassword.setOnFocusChangeListener(this);
         edtPassword.setOnClickListener(this);
+        edtPassword.setOnKeyListener(this);
         edtPassword.requestFocus();
+        edtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    onClickNext();
+                }
+                return false;
+            }
+        });
     }
 
     public static MPinView getInstance(CustomViewManager customViewManager) {
@@ -67,8 +81,8 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
     }
 
     @OnClick(R.id.img_next)
-    void onCLickNext() {
-        if (edtPassword.getText().length() == 6) {
+    void onClickNext() {
+        if (edtPassword.getText().length() == 4) {
             edtPassword.clearFocus();
             try {
                 mCustomIme.restoreInputTarget();
@@ -121,5 +135,17 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
         } catch (Exception e) {
             Util.logException(TAG, "onFocusChange", e);
         }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (keyCode == EditorInfo.IME_ACTION_NEXT) {
+            onClickNext();
+        }
+       /* if ((event.getAction() == KeyEvent.ACTION_UP) || (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+            return true;
+        }*/
+        return false;
     }
 }

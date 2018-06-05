@@ -51,7 +51,7 @@ public class TransactionView implements TransactionAdapter.ClickListener {
         status.add("Pending");
         status.add("Failed");
         status.add("Successful");
-        spnStatus.setAdapter(new ArrayAdapter<String>(mCustomIme, android.R.layout.simple_dropdown_item_1line, status));
+        spnStatus.setAdapter(new ArrayAdapter<>(mCustomIme, android.R.layout.simple_dropdown_item_1line, status));
 
     }
 

@@ -46,7 +46,7 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
     private View v;
     private List<PayTo> payess;
 
-    private SelectToPayView(CustomViewManager customViewManager) {
+    private SelectToPayView(final CustomViewManager customViewManager) {
         mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
@@ -60,7 +60,6 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
         payess.add(getPayTo("Yug", "1234 5678 9012 9876", R.drawable.hdfc));
         payess.add(getPayTo("Braj b", "1234 5678 9012 5564", R.drawable.hsbc));
         recyclerView.setAdapter(new SelectToPayAdapter(payess, this));
-
     }
 
     public static SelectToPayView getInstance(CustomViewManager context) {
@@ -86,7 +85,7 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     @OnClick(R.id.img_back)
     void onClickBack() {
-        customViewManager.showSelectToPayView();
+        customViewManager.restoreToSelectionBar();
     }
 
     @Override

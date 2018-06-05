@@ -52,16 +52,16 @@ public class PaymentDetailsView {
     private View v;
     private Transaction transaction;
 
-    private PaymentDetailsView(final CustomViewManager customViewManager, Transaction transaction) {
+    private PaymentDetailsView(final CustomViewManager customViewManager, Transaction doneTransaction) {
         this.mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
-        this.transaction = transaction;
+        this.transaction = doneTransaction;
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_payment_details, null);
         ButterKnife.bind(this, v);
 
         txtPayName.setText(transaction.getName());
-        txtCardNo.setText(transaction.getCard().getCardNo());
+        txtCardNo.setText(extractLastFourDigits(transaction.getCard().getCardNo()));
         txtPaymentAmount.setText(transaction.getAmount());
         txtStatus.setText(transaction.getStatus());
         txtReason.setText(transaction.getNotes());
@@ -109,16 +109,21 @@ public class PaymentDetailsView {
         btnUpdateInfo = null;
     }
 
-    public String getDateFromDate(Date date) {
+    private String getDateFromDate(Date date) {
         String formatDate = "dd/MM/yyyy";
         SimpleDateFormat dateFormatter = new SimpleDateFormat(formatDate, Locale.ENGLISH);
         return dateFormatter.format(date);
     }
 
-    public String getDay(Date date) {
+    private String getDay(Date date) {
         String dateFormat = "EEEE";
         SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
         return dateFormatter.format(date);
+    }
+
+    private String extractLastFourDigits(String cardNo) {
+        cardNo = cardNo.substring(cardNo.length() - 5, cardNo.length());
+        return cardNo;
     }
 }
 

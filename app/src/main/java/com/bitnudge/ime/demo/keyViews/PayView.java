@@ -3,6 +3,7 @@ package com.bitnudge.ime.demo.keyViews;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -29,13 +30,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PayView implements View.OnClickListener, View.OnFocusChangeListener, BobbleEditText.OnKeyListener {
+
     @BindView(R.id.spn_payment_details)
     Spinner spnCardDetails;
 
-    private String TAG = this.getClass().getSimpleName();
+    @BindView(R.id.spn_converting_country)
+    Spinner spnConvertingCountry;
 
     @BindView(R.id.img_add_card)
     ImageView imgAddCard;
+
+    @BindView(R.id.img_back)
+    ImageView imgBack;
 
     @BindView(R.id.img_country)
     Spinner imgCountry;
@@ -58,6 +64,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     @BindView(R.id.layout_parent)
     ScrollView layoutParent;
 
+    private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
     private PayTo payTo;
@@ -80,6 +87,8 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         edtCurrency.setOnFocusChangeListener(this);
         edtCurrency.setOnKeyListener(this);
         edtConvertingRate.setOnKeyListener(this);
+
+        imgBack.setOnClickListener(this);
         txtPayName.setText(payTo.getName());
         txtCardNo.setText(extractLastFourDigits(payTo.getCard().getCardNo()));
         imgIcon.setBackground(mCustomIme.getResources().getDrawable(payTo.getCard().getId()));
@@ -106,10 +115,10 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     private void setDefaultAdapter() {
         cards = new ArrayList<>();
-        cards.add(new Card("1234 5678 8907 4433", R.drawable.icici));
-        cards.add(new Card("1234 5678 8907 4433", R.drawable.hdfc));
-        cards.add(new Card("1234 5678 8907 4433", R.drawable.rbs));
-        cards.add(new Card("1234 5678 8907 4433", R.drawable.hsbc));
+        cards.add(new Card("1234 5678 8907 4454", R.drawable.icici));
+        cards.add(new Card("1234 5678 8907 4476", R.drawable.hdfc));
+        cards.add(new Card("1234 5678 8907 4487", R.drawable.rbs));
+        cards.add(new Card("1234 5678 8907 4412", R.drawable.hsbc));
         spnCardDetails.setAdapter(new SpinnerAdapter(mCustomIme, R.layout.layout_spinner_item, cards));
 
         List<Country> countries = new ArrayList<>();
@@ -119,6 +128,18 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         countries.add(new Country("Russia", R.drawable.ic_add));
 
         imgCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
+        imgCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spnConvertingCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
     }
 
     @Override
@@ -132,6 +153,9 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
                 case R.id.edt_converting_rate:
                     edtConvertingRate.requestFocus();
                     mCustomIme.setInputTarget(edtConvertingRate);
+                    break;
+                case R.id.img_back:
+                    customViewManager.showSelectToPayView();
                     break;
             }
         } catch (Exception e) {
@@ -166,7 +190,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
             transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
             transaction.setAmount(edtConvertingRate.getText().toString());
             transaction.setNotes("Cards Added ");
-            transaction.setStatus("Success");
+            transaction.setStatus("Successful");
             transaction.setDate(new Date());
             transaction.setCurrency(edtCurrency.getText().toString());
             customViewManager.showPaymentDetailsView(transaction);
