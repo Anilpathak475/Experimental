@@ -17,7 +17,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
+                android:id="@+id/img_back"
+                android:layout_width="10dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="15dp"
                 android:background="@drawable/ic_back" />
@@ -125,8 +126,8 @@
 
             <ImageView
                 android:id="@+id/img_add_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
@@ -149,14 +150,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
-
                 android:elevation="5dp"
                 android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/img_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@android:color/transparent"
                     android:elevation="5dp" />
 
@@ -164,10 +164,12 @@
                     android:id="@+id/edt_currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="10dp"
                     android:letterSpacing="-0.03"
-                    android:text="USD 123"
+                    android:text="USD "
                     android:textColorLink="@color/light_grey"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -203,23 +205,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:enabled="false"
                         android:letterSpacing="-0.04"
                         android:text="Indicative Exchange Rate  1 AED = 0.27 US Dollar"
                         android:textColor="#808285"
-
                         android:textSize="10sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="2dp"
                         android:enabled="false"
                         android:letterSpacing="-0.05"
@@ -266,9 +266,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:letterSpacing="-0.03"
-                    android:text="AED 400"
+                    android:text="AED "
                     android:textColor="#4a4a4a"
                     android:textColorLink="@color/light_grey"
+                    android:imeOptions="actionGo"
+                    android:inputType="numberDecimal"
                     android:textSize="12sp" />
 
             </LinearLayout>

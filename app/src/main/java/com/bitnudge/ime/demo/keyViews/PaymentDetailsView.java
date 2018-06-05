@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PaymentDetailsView {
-
     @BindView(R.id.img_close)
     ImageView imgClose;
     @BindView(R.id.txt_date)
@@ -47,6 +46,7 @@ public class PaymentDetailsView {
     Button btnUpdateInfo;
     @BindView(R.id.layout_parent)
     ScrollView layoutParent;
+
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
     private View v;
@@ -56,6 +56,7 @@ public class PaymentDetailsView {
         this.mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
         this.transaction = transaction;
+
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_payment_details, null);
         ButterKnife.bind(this, v);
@@ -67,6 +68,7 @@ public class PaymentDetailsView {
         txtReason.setText(transaction.getNotes());
         txtDate.setText(getDateFromDate(transaction.getDate()));
         txtDay.setText(getDay(transaction.getDate()));
+        //todo: set flag
     }
 
     public static PaymentDetailsView getInstance(CustomViewManager customViewManager, Transaction transaction) {

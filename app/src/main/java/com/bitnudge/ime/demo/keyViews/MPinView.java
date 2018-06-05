@@ -1,5 +1,6 @@
 package com.bitnudge.ime.demo.keyViews;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,15 +11,18 @@ import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
 import com.bitnudge.ime.demo.libs.Util;
+import com.bitnudge.ime.demo.modle.Transaction;
 import com.bobblekeyboard.ime.BobbleEditText;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MPinView implements View.OnClickListener, View.OnFocusChangeListener {
-
+public class MPinView implements View.OnClickListener, View.OnFocusChangeListener, BobbleEditText.OnKeyListener {
     private final String TAG = getClass().getName();
+
     @BindView(R.id.edt_password)
     BobbleEditText edtPassword;
 
@@ -31,10 +35,11 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
     @BindView(R.id.layout_parent)
     RelativeLayout layoutParent;
 
-
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
+    private Boolean inProgress;
     private View v;
+
 
     private MPinView(final CustomViewManager customViewManager) {
         this.mCustomIme = customViewManager.getContext();
@@ -44,7 +49,9 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
         ButterKnife.bind(this, v);
         edtPassword.setOnFocusChangeListener(this);
         edtPassword.setOnClickListener(this);
+        edtPassword.setOnKeyListener(this);
         edtPassword.requestFocus();
+        inProgress = false;
     }
 
     public static MPinView getInstance(CustomViewManager customViewManager) {
@@ -53,6 +60,9 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     @OnClick(R.id.img_back)
     void onCLickBack() {
+        if(inProgress) return;
+        inProgress = true;
+
         edtPassword.clearFocus();
         mCustomIme.onFinishInput();
         try {
@@ -68,19 +78,7 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     @OnClick(R.id.img_next)
     void onCLickNext() {
-        if (edtPassword.getText().length() == 6) {
-            edtPassword.clearFocus();
-            try {
-                mCustomIme.restoreInputTarget();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            layoutParent.startAnimation(Util.hideView());
-            layoutParent.setVisibility(View.GONE);
-            customViewManager.showSelectToPayView();
-        } else {
-            Toast.makeText(mCustomIme, "Password must contains 6 digits", Toast.LENGTH_SHORT).show();
-        }
+        goForward();
     }
 
     public View getView() {
@@ -120,6 +118,35 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
             }
         } catch (Exception e) {
             Util.logException(TAG, "onFocusChange", e);
+        }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            goForward();
+            return true;
+        }
+
+        return false;
+    }
+
+    private void goForward() {
+        if(inProgress) return;
+        inProgress = true;
+
+        if (edtPassword.getText().length() == 4) {
+            edtPassword.clearFocus();
+            try {
+                mCustomIme.restoreInputTarget();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            layoutParent.startAnimation(Util.hideView());
+            layoutParent.setVisibility(View.GONE);
+            customViewManager.showSelectToPayView();
+        } else {
+            Toast.makeText(mCustomIme, "MPin is a 4 digit number", Toast.LENGTH_SHORT).show();
         }
     }
 }

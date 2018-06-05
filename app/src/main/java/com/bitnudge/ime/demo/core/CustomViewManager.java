@@ -165,7 +165,7 @@ public class CustomViewManager implements View.OnClickListener {
         destroyViews();
         payView = PayView.getInstance(customViewManager, payTo);
         try {
-            slideInSelectedBar("Pay", R.drawable.demo_icon);
+            slideInSelectedBar("Pay", R.drawable.moneygram_logo);
             Util.showView(mCustomIme, payView.getView());
             mCustomIme.showCustomView(payView.getView());
         } catch (Exception e) {
@@ -176,88 +176,88 @@ public class CustomViewManager implements View.OnClickListener {
     public void showSelectToPayView() {
         destroyViews();
         addTopBarViewOnKeyboarBoardTop();
-        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        slideInSelectedBar("Select Beneficiary", R.drawable.moneygram_logo);
         selectToPayView = SelectToPayView.getInstance(this);
 
         try {
             Util.showView(mCustomIme, selectToPayView.getView());
             mCustomIme.showCustomView(selectToPayView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "Select Beneficiary", e);
         }
     }
 
     public void showTransactionView() {
         destroyViews();
-        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        slideInSelectedBar("History", R.drawable.transactions_icon);
         transactionView = TransactionView.getInstance(mCustomIme);
 
         try {
             Util.showView(mCustomIme, transactionView.getView());
             mCustomIme.showCustomView(transactionView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "History", e);
         }
     }
 
     public void showAddBeneficaryView() {
         destroyViews();
-        slideInSelectedBar("Select To Pay", R.drawable.demo_icon);
+        slideInSelectedBar("Add Beneficiary", R.drawable.moneygram_logo);
         addBeneficiaryView = AddBeneficiaryView.getInstance(this);
         try {
             Util.showView(mCustomIme, addBeneficiaryView.getView());
             mCustomIme.showCustomView(addBeneficiaryView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "Add Beneficiary", e);
         }
     }
 
     private void showReceiverDetailView() {
         destroyViews();
-        slideInSelectedBar("Receiver Detail", R.drawable.demo_icon);
+        slideInSelectedBar("Receiver Detail", R.drawable.moneygram_logo);
         receiverDetailView = RecevierDetailView.getInstance(mCustomIme);
 
         try {
             mCustomIme.showCustomView(receiverDetailView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "Receiver Detail", e);
         }
     }
 
     public void showBotView() {
         destroyViews();
-        slideInSelectedBar("Chat", R.drawable.demo_icon);
+        slideInSelectedBar("Chat", R.drawable.bot_icon);
         botKeyView = BotKeyView.getInstance(mCustomIme);
 
         try {
             mCustomIme.showCustomView(botKeyView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "Chat", e);
         }
     }
 
     public void showPaymentDetailsView(Transaction transaction) {
         destroyViews();
-        slideInSelectedBar("Chat", R.drawable.demo_icon);
+        slideInSelectedBar("Pay Status", R.drawable.moneygram_logo);
         paymentDetailsView = PaymentDetailsView.getInstance(this, transaction);
 
         try {
             Util.showView(mCustomIme, paymentDetailsView.getView());
             mCustomIme.showCustomView(paymentDetailsView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "Pay Status", e);
         }
     }
 
     private void showMPinView() {
         destroyViews();
-        slideInSelectedBar("Chat", R.drawable.demo_icon);
+        slideInSelectedBar("MPin", R.drawable.moneygram_logo);
         mPinView = MPinView.getInstance(this);
 
         try {
             mCustomIme.setTopBar(mPinView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select To Pay", e);
+            Util.logException(TAG, "MPin", e);
         }
     }
 }

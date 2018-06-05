@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.CountrySpinnerAdapter;
@@ -21,12 +22,14 @@ import com.bitnudge.ime.demo.modle.PayTo;
 import com.bitnudge.ime.demo.modle.Transaction;
 import com.bobblekeyboard.ime.BobbleEditText;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PayView implements View.OnClickListener, View.OnFocusChangeListener, BobbleEditText.OnKeyListener {
     @BindView(R.id.spn_payment_details)
@@ -58,8 +61,12 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     @BindView(R.id.layout_parent)
     ScrollView layoutParent;
 
+    @BindView(R.id.img_back)
+    ImageView imgBack;
+
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
+    private Boolean inProgress;
     private PayTo payTo;
     private View v;
     private List<Card> cards;
@@ -83,6 +90,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         txtPayName.setText(payTo.getName());
         txtCardNo.setText(extractLastFourDigits(payTo.getCard().getCardNo()));
         imgIcon.setBackground(mCustomIme.getResources().getDrawable(payTo.getCard().getId()));
+        inProgress = false;
     }
 
     public static PayView getInstance(CustomViewManager customViewManager, PayTo payTo) {
@@ -113,12 +121,32 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         spnCardDetails.setAdapter(new SpinnerAdapter(mCustomIme, R.layout.layout_spinner_item, cards));
 
         List<Country> countries = new ArrayList<>();
-        countries.add(new Country("India", R.drawable.ic_united_states));
-        countries.add(new Country("Usa", R.drawable.ic_united_arab_emirates));
-        countries.add(new Country("England", R.drawable.exchange));
-        countries.add(new Country("Russia", R.drawable.ic_add));
+        countries.add(new Country("USA", R.drawable.ic_united_states));
+        countries.add(new Country("India", R.drawable.ic_india_flag));
+        countries.add(new Country("England", R.drawable.ic_england_flag));
+        countries.add(new Country("UAE", R.drawable.ic_united_arab_emirates));
 
         imgCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
+    }
+
+    @OnClick(R.id.img_back)
+    void onCLickBack() {
+        if(inProgress) return;
+        inProgress = true;
+
+        edtCurrency.clearFocus();
+        edtConvertingRate.clearFocus();
+
+        mCustomIme.onFinishInput();
+        try {
+            mCustomIme.restoreInputTarget();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        layoutParent.startAnimation(Util.hideView());
+        layoutParent.setVisibility(View.GONE);
+        customViewManager.showSelectToPayView();
     }
 
     @Override
@@ -141,6 +169,8 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        layoutParent.fullScroll(ScrollView.FOCUS_DOWN);
+
         try {
             switch (v.getId()) {
                 case R.id.edt_currency:
@@ -159,19 +189,74 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            layoutParent.startAnimation(Util.hideView());
-            layoutParent.setVisibility(View.GONE);
-            Transaction transaction = new Transaction();
-            transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
-            transaction.setAmount(edtConvertingRate.getText().toString());
-            transaction.setNotes("Cards Added ");
-            transaction.setStatus("Success");
-            transaction.setDate(new Date());
-            transaction.setCurrency(edtCurrency.getText().toString());
-            customViewManager.showPaymentDetailsView(transaction);
+        if(keyCode == KeyEvent.KEYCODE_DEL) {
+            if(v.getId() == R.id.edt_currency) {
+                String text = edtCurrency.getText().toString();
+
+                if (text.length() > 4) {
+                    text = text.substring(4).trim();
+                    float value = Float.parseFloat(text);
+                    value = value * 3.67f;
+                    edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
+                } else if (text.length() == 4) edtConvertingRate.setText("AED 0");
+                else return true;
+            }
+            else {
+                String text = edtConvertingRate.getText().toString();
+
+                if (text.length() > 4) {
+                    text = text.substring(4).trim();
+                    float value = Float.parseFloat(text);
+                    value = value * 3.67f;
+                    edtCurrency.setText(MessageFormat.format("USD {0}", value));
+                } else if (text.length() == 4) edtCurrency.setText("USD 0");
+                else return true;
+            }
+        }
+        else if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            if(edtConvertingRate.getText().length() > 4) {
+                if(inProgress) return true;
+                inProgress = true;
+
+                layoutParent.startAnimation(Util.hideView());
+                layoutParent.setVisibility(View.GONE);
+                Transaction transaction = new Transaction();
+                transaction.setName(payTo.getName());
+                transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
+                transaction.setAmount(edtConvertingRate.getText().toString());
+                transaction.setNotes("-");
+                transaction.setStatus("Successful");
+                transaction.setDate(new Date());
+                transaction.setCurrency(edtCurrency.getText().toString());
+                customViewManager.showPaymentDetailsView(transaction);
+            }
+            else Toast.makeText(mCustomIme, "To transfer, please fill in the amount.", Toast.LENGTH_SHORT).show();
+
             return true;
         }
+        else if(v.getId() == R.id.edt_currency) {
+            String text = edtCurrency.getText().toString();
+
+            if(text.length() > 4) {
+                text = text.substring(4).trim();
+                float value = Float.parseFloat(text);
+                value = value * 3.67f;
+                edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
+            }
+            else edtConvertingRate.setText("AED 0");
+        }
+        else if(v.getId() == R.id.edt_converting_rate) {
+            String text = edtConvertingRate.getText().toString();
+
+            if(text.length() > 4) {
+                text = text.substring(4).trim();
+                float value = Float.parseFloat(text);
+                value = value * 0.27f;
+                edtCurrency.setText(MessageFormat.format("USD {0}", value));
+            }
+            else edtCurrency.setText("USD 0");
+        }
+
         return false;
     }
 

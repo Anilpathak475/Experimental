@@ -33,7 +33,7 @@
 
             <com.bobblekeyboard.ime.BobbleEditText
                 android:id="@+id/edt_password"
-                android:layout_width="186dp"
+                android:layout_width="2000dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -41,17 +41,17 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:background="@android:color/transparent"
-                android:ems="6"
-                android:hint="Enter Your MPin"
-                android:imeOptions="actionNext"
+                android:ems="4"
+                android:hint="Enter your MPin"
+                android:imeOptions="actionGo"
                 android:inputType="numberPassword"
-                android:maxEms="6"
-                android:maxLength="6"
+                android:maxEms="4"
+                android:maxLength="4"
                 android:maxLines="1"
                 android:textAlignment="center"
+                android:textColorHint="@color/light_grey"
                 android:textSize="20sp" />
         </RelativeLayout>
-
 
         <ImageView
             android:id="@+id/img_next"
