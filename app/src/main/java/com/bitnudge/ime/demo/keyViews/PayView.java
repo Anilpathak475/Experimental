@@ -194,7 +194,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
                 String text = edtCurrency.getText().toString();
 
                 if (text.length() > 4) {
-                    text = text.substring(4).trim();
+                    text = text.substring(4).trim().replaceAll(",", "");;
                     float value = Float.parseFloat(text);
                     value = value * 3.67f;
                     edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
@@ -205,7 +205,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
                 String text = edtConvertingRate.getText().toString();
 
                 if (text.length() > 4) {
-                    text = text.substring(4).trim();
+                    text = text.substring(4).trim().replaceAll(",", "");;
                     float value = Float.parseFloat(text);
                     value = value * 3.67f;
                     edtCurrency.setText(MessageFormat.format("USD {0}", value));
@@ -238,7 +238,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
             String text = edtCurrency.getText().toString();
 
             if(text.length() > 4) {
-                text = text.substring(4).trim();
+                text = text.substring(4).trim().replaceAll(",", "");
                 float value = Float.parseFloat(text);
                 value = value * 3.67f;
                 edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
@@ -249,7 +249,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
             String text = edtConvertingRate.getText().toString();
 
             if(text.length() > 4) {
-                text = text.substring(4).trim();
+                text = text.substring(4).trim().replaceAll(",", "");;
                 float value = Float.parseFloat(text);
                 value = value * 0.27f;
                 edtCurrency.setText(MessageFormat.format("USD {0}", value));
