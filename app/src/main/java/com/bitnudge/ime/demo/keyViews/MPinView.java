@@ -3,18 +3,17 @@ package com.bitnudge.ime.demo.keyViews;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
 import com.bitnudge.ime.demo.libs.Util;
-import com.bitnudge.ime.demo.modle.Transaction;
 import com.bobblekeyboard.ime.BobbleEditText;
-
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +50,15 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
         edtPassword.setOnClickListener(this);
         edtPassword.setOnKeyListener(this);
         edtPassword.requestFocus();
+        edtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    onClickNext();
+                }
+                return false;
+            }
+        });
         inProgress = false;
     }
 
@@ -77,7 +85,7 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
     }
 
     @OnClick(R.id.img_next)
-    void onCLickNext() {
+    void onClickNext() {
         goForward();
     }
 
@@ -127,7 +135,6 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
             goForward();
             return true;
         }
-
         return false;
     }
 
