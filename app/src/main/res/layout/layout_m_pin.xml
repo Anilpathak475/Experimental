@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_parent"
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="10dp"
+    android:id="@+id/layout_parent"
     android:background="@color/white">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,7 +33,7 @@
 
             <com.bobblekeyboard.ime.BobbleEditText
                 android:id="@+id/edt_password"
-                android:layout_width="186dp"
+                android:layout_width="2000dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -42,16 +42,16 @@
                 android:layout_marginStart="10dp"
                 android:background="@android:color/transparent"
                 android:ems="4"
-                android:hint="Enter Your Mpin"
-                android:imeOptions="actionNext"
+                android:hint="Enter your MPin"
+                android:imeOptions="actionGo"
                 android:inputType="numberPassword"
                 android:maxEms="4"
                 android:maxLength="4"
                 android:maxLines="1"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textColorHint="@color/light_grey"
+                android:textSize="20sp" />
         </RelativeLayout>
-
 
         <ImageView
             android:id="@+id/img_next"

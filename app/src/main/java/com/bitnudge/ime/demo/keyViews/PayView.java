@@ -3,7 +3,6 @@ package com.bitnudge.ime.demo.keyViews;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -30,7 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PayView implements View.OnClickListener, View.OnFocusChangeListener, BobbleEditText.OnKeyListener {
-
     @BindView(R.id.spn_payment_details)
     Spinner spnCardDetails;
 
@@ -183,19 +181,74 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            layoutParent.startAnimation(Util.hideView());
-            layoutParent.setVisibility(View.GONE);
-            Transaction transaction = new Transaction();
-            transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
-            transaction.setAmount(edtConvertingRate.getText().toString());
-            transaction.setNotes("Cards Added ");
-            transaction.setStatus("Successful");
-            transaction.setDate(new Date());
-            transaction.setCurrency(edtCurrency.getText().toString());
-            customViewManager.showPaymentDetailsView(transaction);
+        if(keyCode == KeyEvent.KEYCODE_DEL) {
+            if(v.getId() == R.id.edt_currency) {
+                String text = edtCurrency.getText().toString();
+
+                if (text.length() > 4) {
+                    text = text.substring(4).trim().replaceAll(",", "");;
+                    float value = Float.parseFloat(text);
+                    value = value * 3.67f;
+                    edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
+                } else if (text.length() == 4) edtConvertingRate.setText("AED 0");
+                else return true;
+            }
+            else {
+                String text = edtConvertingRate.getText().toString();
+
+                if (text.length() > 4) {
+                    text = text.substring(4).trim().replaceAll(",", "");;
+                    float value = Float.parseFloat(text);
+                    value = value * 3.67f;
+                    edtCurrency.setText(MessageFormat.format("USD {0}", value));
+                } else if (text.length() == 4) edtCurrency.setText("USD 0");
+                else return true;
+            }
+        }
+        else if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            if(edtConvertingRate.getText().length() > 4) {
+                if(inProgress) return true;
+                inProgress = true;
+
+                layoutParent.startAnimation(Util.hideView());
+                layoutParent.setVisibility(View.GONE);
+                Transaction transaction = new Transaction();
+                transaction.setName(payTo.getName());
+                transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
+                transaction.setAmount(edtConvertingRate.getText().toString());
+                transaction.setNotes("-");
+                transaction.setStatus("Successful");
+                transaction.setDate(new Date());
+                transaction.setCurrency(edtCurrency.getText().toString());
+                customViewManager.showPaymentDetailsView(transaction);
+            }
+            else Toast.makeText(mCustomIme, "To transfer, please fill in the amount.", Toast.LENGTH_SHORT).show();
+
             return true;
         }
+        else if(v.getId() == R.id.edt_currency) {
+            String text = edtCurrency.getText().toString();
+
+            if(text.length() > 4) {
+                text = text.substring(4).trim().replaceAll(",", "");
+                float value = Float.parseFloat(text);
+                value = value * 3.67f;
+                edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
+            }
+            else edtConvertingRate.setText("AED 0");
+        }
+        else if(v.getId() == R.id.edt_converting_rate) {
+            String text = edtConvertingRate.getText().toString();
+
+            if(text.length() > 4) {
+                text = text.substring(4).trim().replaceAll(",", "");;
+                float value = Float.parseFloat(text);
+                value = value * 0.27f;
+                edtCurrency.setText(MessageFormat.format("USD {0}", value));
+            }
+            else edtCurrency.setText("USD 0");
+        }
+
         return false;
     }
 

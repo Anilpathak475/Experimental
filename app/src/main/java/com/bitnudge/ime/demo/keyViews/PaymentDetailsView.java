@@ -52,16 +52,16 @@ public class PaymentDetailsView {
     private View v;
     private Transaction transaction;
 
-    private PaymentDetailsView(final CustomViewManager customViewManager, Transaction doneTransaction) {
+    private PaymentDetailsView(final CustomViewManager customViewManager, Transaction transaction) {
         this.mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
-        this.transaction = doneTransaction;
+        this.transaction = transaction;
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_payment_details, null);
         ButterKnife.bind(this, v);
 
         txtPayName.setText(transaction.getName());
-        txtCardNo.setText(extractLastFourDigits(transaction.getCard().getCardNo()));
+        txtCardNo.setText(transaction.getCard().getCardNo());
         txtPaymentAmount.setText(transaction.getAmount());
         txtStatus.setText(transaction.getStatus());
         txtReason.setText(transaction.getNotes());

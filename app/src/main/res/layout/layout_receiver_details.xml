@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/img_back"
                 android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/ic_back" />
 
@@ -126,7 +126,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/red"
-            android:text="COnfirm"
+            android:text="Confirm"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/white" />
     </LinearLayout>
 </ScrollView>

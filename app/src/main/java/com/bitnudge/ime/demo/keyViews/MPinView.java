@@ -1,13 +1,11 @@
 package com.bitnudge.ime.demo.keyViews;
 
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
@@ -38,6 +36,7 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
+    private Boolean inProgress;
     private View v;
 
     private MPinView(final CustomViewManager customViewManager) {
@@ -59,6 +58,7 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
                 return false;
             }
         });
+        inProgress = false;
     }
 
     public static MPinView getInstance(CustomViewManager customViewManager) {
@@ -67,6 +67,9 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     @OnClick(R.id.img_back)
     void onCLickBack() {
+        if(inProgress) return;
+        inProgress = true;
+
         edtPassword.clearFocus();
         mCustomIme.onFinishInput();
         try {
@@ -82,19 +85,7 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     @OnClick(R.id.img_next)
     void onClickNext() {
-        if (edtPassword.getText().length() == 4) {
-            edtPassword.clearFocus();
-            try {
-                mCustomIme.restoreInputTarget();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            layoutParent.startAnimation(Util.hideView());
-            layoutParent.setVisibility(View.GONE);
-            customViewManager.showSelectToPayView();
-        } else {
-            Toast.makeText(mCustomIme, "Password must contains 6 digits", Toast.LENGTH_SHORT).show();
-        }
+        goForward();
     }
 
     public View getView() {
@@ -139,13 +130,29 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (keyCode == EditorInfo.IME_ACTION_NEXT) {
-            onClickNext();
-        }
-       /* if ((event.getAction() == KeyEvent.ACTION_UP) || (keyCode == KeyEvent.KEYCODE_ENTER)) {
-
+        if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            goForward();
             return true;
-        }*/
+        }
         return false;
+    }
+
+    private void goForward() {
+        if(inProgress) return;
+        inProgress = true;
+
+        if (edtPassword.getText().length() == 4) {
+            edtPassword.clearFocus();
+            try {
+                mCustomIme.restoreInputTarget();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            layoutParent.startAnimation(Util.hideView());
+            layoutParent.setVisibility(View.GONE);
+            customViewManager.showSelectToPayView();
+        } else {
+            Toast.makeText(mCustomIme, "MPin is a 4 digit number", Toast.LENGTH_SHORT).show();
+        }
     }
 }

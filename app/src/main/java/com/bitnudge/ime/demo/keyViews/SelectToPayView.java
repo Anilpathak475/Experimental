@@ -43,23 +43,45 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
     private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
+    private Boolean inProgress;
+    private List<PayTo> payees;
     private View v;
     private List<PayTo> payess;
 
-    private SelectToPayView(final CustomViewManager customViewManager) {
+    private SelectToPayView(CustomViewManager customViewManager) {
         mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_select_to_pay, null);
         ButterKnife.bind(this, v);
         recyclerView.setLayoutManager(new LinearLayoutManager(mCustomIme));
-        payess = new ArrayList<>();
+        payees = new ArrayList<>();
 
-        payess.add(getPayTo("Anil Pathak", "1234 5678 9012 1223", R.drawable.icici));
-        payess.add(getPayTo("Braj B", "1234 5678 9012 4545", R.drawable.rbs));
-        payess.add(getPayTo("Yug", "1234 5678 9012 9876", R.drawable.hdfc));
-        payess.add(getPayTo("Braj b", "1234 5678 9012 5564", R.drawable.hsbc));
-        recyclerView.setAdapter(new SelectToPayAdapter(payess, this));
+        payees.add(getPayTo("Anil Pathak", "1234 5678 9012 1223", R.drawable.icici));
+        payees.add(getPayTo("Braj B", "1234 5678 9012 4545", R.drawable.rbs));
+        payees.add(getPayTo("Yug", "1234 5678 9012 9876", R.drawable.hdfc));
+        payees.add(getPayTo("Braj b", "1234 5678 9012 5564", R.drawable.hsbc));
+        recyclerView.setAdapter(new SelectToPayAdapter(payees, this));
+        inProgress = false;
+    }
+
+    @OnClick(R.id.img_back)
+    void onCLickBack() {
+        if(inProgress) return;
+        inProgress = true;
+
+        mCustomIme.onFinishInput();
+        try {
+            mCustomIme.restoreInputTarget();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        layoutParent.startAnimation(Util.hideView());
+        layoutParent.setVisibility(View.GONE);
+
+        customViewManager.restoreToSelectionBar();
+        customViewManager.addTopBarViewOnKeyboarBoardTop();
     }
 
     public static SelectToPayView getInstance(CustomViewManager context) {
@@ -85,14 +107,14 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     @OnClick(R.id.img_back)
     void onClickBack() {
-        customViewManager.restoreToSelectionBar();
+        customViewManager.showSelectToPayView();
     }
 
     @Override
     public void onItemClick(int position) {
         layoutParent.startAnimation(Util.hideView());
         layoutParent.setVisibility(View.GONE);
-        customViewManager.showPayView(payess.get(position));
+        customViewManager.showPayView(payees.get(position));
     }
 
     @Override

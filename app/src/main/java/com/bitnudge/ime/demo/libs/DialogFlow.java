@@ -15,7 +15,7 @@ public class DialogFlow {
     private AIDataService aiDataService;
 
     public DialogFlow(Context context) {
-        final AIConfiguration config = new AIConfiguration("cd6ac450059e463bb263a14f56b456aa",
+        final AIConfiguration config = new AIConfiguration("6985914de2c14f5c87fe8c5137326aa2",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
