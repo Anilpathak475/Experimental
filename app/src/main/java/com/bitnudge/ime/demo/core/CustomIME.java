@@ -1,5 +1,9 @@
 package com.bitnudge.ime.demo.core;
 
+import android.provider.Settings;
+import android.util.Log;
+
+import com.bitnudge.ime.demo.libs.InvalidConfigurationException;
 import com.bitnudge.ime.demo.libs.Util;
 import com.bobblekeyboard.ime.BobbleIME;
 import com.bobblekeyboard.ime.BobbleIMETheme;
@@ -21,6 +25,17 @@ public class CustomIME extends BobbleIME {
         Fresco.initialize(this);
 
         setLicenceKey(LICENCE_KEY);
+        String android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.e(TAG, android_id);
+        if (!Util.matchId(android_id)) {
+            String message = "App Not Registered";
+
+            Log.e(TAG, message);
+            throw new InvalidConfigurationException(
+                    message
+            );
+        }
         mCustomViewManager = new CustomViewManager(this);
     }
 
@@ -29,7 +44,6 @@ public class CustomIME extends BobbleIME {
     protected void onStartIME() {
         mCustomViewManager.addTopBarViewOnKeyboarBoardTop();
     }
-
 
 
     @Override
@@ -41,6 +55,8 @@ public class CustomIME extends BobbleIME {
     protected void onSetDefaultTheme() {
         try {
             setIMETheme(BobbleIMETheme.LIGHT);
-        } catch (Exception e) { Util.logException(TAG, "onSetDefaultTheme", e); }
+        } catch (Exception e) {
+            Util.logException(TAG, "onSetDefaultTheme", e);
+        }
     }
 }

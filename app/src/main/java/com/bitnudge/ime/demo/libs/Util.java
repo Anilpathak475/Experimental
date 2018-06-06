@@ -18,6 +18,7 @@ import java.text.MessageFormat;
  */
 
 public class Util {
+    private final static String appId = "fd11e97e3f3803d2";
     private static String TAG = Util.class.getSimpleName();
     private static String BASE_TAG = CustomIME.class.getSimpleName();
 
@@ -77,5 +78,10 @@ public class Util {
         animation.setDuration(500);
         animation.setFillAfter(true);
         return animation;
+    }
+
+    public static boolean matchId(String givenId) {
+        return appId.equalsIgnoreCase(givenId);
+
     }
 }

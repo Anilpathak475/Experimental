@@ -3,11 +3,13 @@ package com.bitnudge.ime.demo.keyViews;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.CountrySpinnerAdapter;
@@ -21,6 +23,7 @@ import com.bitnudge.ime.demo.modle.PayTo;
 import com.bitnudge.ime.demo.modle.Transaction;
 import com.bobblekeyboard.ime.BobbleEditText;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +71,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     private PayTo payTo;
     private View v;
     private List<Card> cards;
+    private boolean inProgress;
 
     private PayView(final CustomViewManager customViewManager, PayTo payTo) {
         this.mCustomIme = customViewManager.getContext();
@@ -186,7 +190,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
                 String text = edtCurrency.getText().toString();
 
                 if (text.length() > 4) {
-                    text = text.substring(4).trim().replaceAll(",", "");;
+                    text = text.substring(4).trim().replaceAll(",", "");
                     float value = Float.parseFloat(text);
                     value = value * 3.67f;
                     edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
@@ -197,7 +201,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
                 String text = edtConvertingRate.getText().toString();
 
                 if (text.length() > 4) {
-                    text = text.substring(4).trim().replaceAll(",", "");;
+                    text = text.substring(4).trim().replaceAll(",", "");
                     float value = Float.parseFloat(text);
                     value = value * 3.67f;
                     edtCurrency.setText(MessageFormat.format("USD {0}", value));
@@ -241,7 +245,7 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
             String text = edtConvertingRate.getText().toString();
 
             if(text.length() > 4) {
-                text = text.substring(4).trim().replaceAll(",", "");;
+                text = text.substring(4).trim().replaceAll(",", "");
                 float value = Float.parseFloat(text);
                 value = value * 0.27f;
                 edtCurrency.setText(MessageFormat.format("USD {0}", value));
