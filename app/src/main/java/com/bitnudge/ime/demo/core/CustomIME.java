@@ -16,26 +16,17 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 public class CustomIME extends BobbleIME {
     private String TAG = this.getClass().getSimpleName();
     private static final String LICENCE_KEY = "W3sicGFja2FnZSI6IkxBenZpdFwvUUNmZUY5Smdna1dVXC9hUkd3RERHVG9waXN0Z1RHZWVOR0RPdz0iLCJpZCI6Miwia2V5IjoiakpxcGRyelN3bHBhd1UraWViYTYrOERvTzYwbE53UGNoU1k3b25TaWp6NWZHWmpEVmFOZ0xqV0UwSnZiNVhKVTI3QjNwQkUyUXczampRZ0dBZnViN1BqYUVtQytDTmlGOTQyQTBEMGlka2R0QzU2cHZHb3N0T2xqTVBCc1R6YXBzSVp4RWxcL2kxVlRzbXVSRmMyQkRCcmp5VW9NRlYraHZ6d3RxZmI4a1U0c002SUJwQ1VKNGJvbUcwTzBVb1VidDEwdnFkeTFSdWxcL1dmY0hhRW9zZmNHSENMVVpmTmZ2TzVQNytReXN2RkJpN1UxNzQrRjRIZG9RRXVDdUxRdmVhYWo4TFRQVUVZV0NZZkFcL3NSU0hUcCtTdG5ldDRSV3MxMHY4eVBuKzBzNVVDbUNLXC9RQmFMWWlObElGT3EzbFZpUzRQaVA2MzdvZEtpUDl4ZnlwTGxrZz09In1d";
+    private final static String appId = "fd11e97e3f3803d2";
     public CustomViewManager mCustomViewManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Fresco.initialize(this);
-
         setLicenceKey(LICENCE_KEY);
-        String android_id = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        Log.e(TAG, android_id);
-        if (!Util.matchId(android_id)) {
-            String message = "App Not Registered";
+        if (!Util.matchId(this, appId)) throw new InvalidConfigurationException("App Not Registered");
 
-            Log.e(TAG, message);
-            throw new InvalidConfigurationException(
-                    message
-            );
-        }
+        Fresco.initialize(this);
         mCustomViewManager = new CustomViewManager(this);
     }
 

@@ -21,7 +21,7 @@
  */
 package com.bitnudge.ime.demo.libs;
 
-public class InvalidConfigurationException extends IllegalArgumentException {
+public class InvalidConfigurationException extends IllegalAccessException {
     public InvalidConfigurationException(String message) {
         super(message);
     }

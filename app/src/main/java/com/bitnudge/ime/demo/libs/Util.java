@@ -2,6 +2,7 @@ package com.bitnudge.ime.demo.libs;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,7 +19,6 @@ import java.text.MessageFormat;
  */
 
 public class Util {
-    private final static String appId = "fd11e97e3f3803d2";
     private static String TAG = Util.class.getSimpleName();
     private static String BASE_TAG = CustomIME.class.getSimpleName();
 
@@ -80,8 +80,8 @@ public class Util {
         return animation;
     }
 
-    public static boolean matchId(String givenId) {
-        return appId.equalsIgnoreCase(givenId);
-
+    public static boolean matchId(Context context, String locked_id) {
+        final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return locked_id.equals(android_id);
     }
 }
