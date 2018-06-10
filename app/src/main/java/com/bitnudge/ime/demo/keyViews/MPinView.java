@@ -73,16 +73,18 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
         inProgress = true;
 
         edtPassword.clearFocus();
-        mCustomIme.onFinishInput();
+
         try {
+            mCustomIme.onFinishInput();
             mCustomIme.restoreInputTarget();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         layoutParent.startAnimation(Util.hideView());
         layoutParent.setVisibility(View.GONE);
         customViewManager.restoreToSelectionBar();
-        customViewManager.addTopBarViewOnKeyboarBoardTop();
+        customViewManager.addSelectionTopBar();
     }
 
     @OnClick(R.id.img_next)
@@ -154,6 +156,7 @@ public class MPinView implements View.OnClickListener, View.OnFocusChangeListene
             layoutParent.setVisibility(View.GONE);
             customViewManager.showSelectToPayView();
         } else {
+            inProgress = false;
             Toast.makeText(mCustomIme, "MPin is a 4 digit number", Toast.LENGTH_SHORT).show();
         }
     }

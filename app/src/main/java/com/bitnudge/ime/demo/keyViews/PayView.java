@@ -124,10 +124,10 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         spnCardDetails.setAdapter(new SpinnerAdapter(mCustomIme, R.layout.layout_spinner_item, cards));
 
         List<Country> countries = new ArrayList<>();
-        countries.add(new Country("India", R.drawable.ic_united_states));
-        countries.add(new Country("Usa", R.drawable.ic_united_arab_emirates));
-        countries.add(new Country("England", R.drawable.exchange));
-        countries.add(new Country("Russia", R.drawable.ic_add));
+        countries.add(new Country("USA", R.drawable.ic_united_states));
+        countries.add(new Country("India", R.drawable.ic_india_flag));
+        countries.add(new Country("UAE", R.drawable.ic_united_arab_emirates));
+        countries.add(new Country("England", R.drawable.ic_england_flag));
 
         imgCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
         imgCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -141,7 +141,22 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
             }
         });
+
         spnConvertingCountry.setAdapter(new CountrySpinnerAdapter(mCustomIme, R.layout.layout_country_spinner_item, countries));
+        spnConvertingCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        imgCountry.setSelection(0);
+        spnConvertingCountry.setSelection(2);
     }
 
     @Override

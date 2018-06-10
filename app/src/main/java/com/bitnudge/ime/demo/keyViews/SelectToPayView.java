@@ -83,7 +83,7 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
         layoutParent.setVisibility(View.GONE);
 
         customViewManager.restoreToSelectionBar();
-        customViewManager.addTopBarViewOnKeyboarBoardTop();
+        customViewManager.addSelectionTopBar();
     }
 
     public static SelectToPayView getInstance(CustomViewManager context) {
@@ -109,7 +109,13 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
 
     @OnClick(R.id.img_back)
     void onClickBack() {
-        customViewManager.showSelectToPayView();
+        try {
+            mCustomIme.restoreInputTarget();
+            customViewManager.restoreToSelectionBar();
+            customViewManager.addSelectionTopBar();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

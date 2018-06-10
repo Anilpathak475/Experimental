@@ -1,8 +1,5 @@
 package com.bitnudge.ime.demo.core;
 
-import android.provider.Settings;
-import android.util.Log;
-
 import com.bitnudge.ime.demo.libs.InvalidConfigurationException;
 import com.bitnudge.ime.demo.libs.Util;
 import com.bobblekeyboard.ime.BobbleIME;
@@ -32,7 +29,7 @@ public class CustomIME extends BobbleIME {
 
     @Override
     protected void onStartIME() {
-        mCustomViewManager.addTopBarViewOnKeyboarBoardTop();
+        mCustomViewManager.addSelectionTopBar();
     }
 
 

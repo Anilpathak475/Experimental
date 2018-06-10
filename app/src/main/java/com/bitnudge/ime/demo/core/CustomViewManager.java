@@ -55,7 +55,7 @@ public class CustomViewManager implements View.OnClickListener {
         return mCustomIme;
     }
 
-    public void addTopBarViewOnKeyboarBoardTop() {
+    public void addSelectionTopBar() {
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         LinearLayout topBarView = (LinearLayout) layoutInflater.inflate(R.layout.top_bar_view_layout, null);
 
@@ -79,7 +79,7 @@ public class CustomViewManager implements View.OnClickListener {
         try {
             mCustomIme.setTopBar(topBarView);
         } catch (Exception e) {
-            Util.logException(TAG, "addTopBarViewOnKeyboarBoardTop", e);
+            Util.logException(TAG, "addSelectionTopBar", e);
         }
     }
 
@@ -175,7 +175,7 @@ public class CustomViewManager implements View.OnClickListener {
 
     public void showSelectToPayView() {
         destroyViews();
-        addTopBarViewOnKeyboarBoardTop();
+        addSelectionTopBar();
         slideInSelectedBar("Select Beneficiary", R.drawable.moneygram_logo);
         selectToPayView = SelectToPayView.getInstance(this);
 
