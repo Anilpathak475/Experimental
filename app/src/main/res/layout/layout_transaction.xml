@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
@@ -17,17 +18,17 @@
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="10dp"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:background="@drawable/ic_back"
             android:elevation="10dp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/border"
-            android:elevation="10dp"
+            android:elevation="15dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -55,15 +56,14 @@
         <Spinner
             android:id="@+id/spn_status"
             style="@style/Widget.App.Spinner"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp" />
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="2dp"
         android:background="@color/light_grey" />
 
     <android.support.v7.widget.RecyclerView

@@ -190,7 +190,7 @@ public class CustomViewManager implements View.OnClickListener {
     public void showTransactionView() {
         destroyViews();
         slideInSelectedBar("History", R.drawable.transactions_icon);
-        transactionView = TransactionView.getInstance(mCustomIme);
+        transactionView = TransactionView.getInstance(this);
 
         try {
             Util.showView(mCustomIme, transactionView.getView());

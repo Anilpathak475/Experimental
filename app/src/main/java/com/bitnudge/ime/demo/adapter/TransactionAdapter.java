@@ -14,7 +14,6 @@ import com.bitnudge.ime.demo.viewholder.TransactionViewHolder;
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
-
     private ClickListener clickListener;
     private List<Transaction> pays;
 

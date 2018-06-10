@@ -51,9 +51,11 @@ public class SelectToPayView implements SelectToPayAdapter.ClickListener {
     private SelectToPayView(CustomViewManager customViewManager) {
         mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
+
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_select_to_pay, null);
         ButterKnife.bind(this, v);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(mCustomIme));
         payees = new ArrayList<>();
 
