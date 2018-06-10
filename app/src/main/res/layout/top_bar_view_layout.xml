@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="@drawable/topbar_button_background"
-            android:padding="2dp"
+            android:padding="5dp"
             android:scaleType="fitCenter"
             android:src="@drawable/transactions_icon" />
 
@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="@drawable/topbar_button_background"
-            android:padding="2dp"
+            android:padding="1dp"
             android:scaleType="fitCenter"
             android:src="@drawable/bot_icon" />
     </LinearLayout>

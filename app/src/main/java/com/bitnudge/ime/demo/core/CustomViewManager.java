@@ -238,7 +238,7 @@ public class CustomViewManager implements View.OnClickListener {
 
     public void showPaymentDetailsView(Transaction transaction) {
         destroyViews();
-        slideInSelectedBar("Pay Status", R.drawable.moneygram_logo);
+        slideInSelectedBar("Payment Status", R.drawable.moneygram_logo);
         paymentDetailsView = PaymentDetailsView.getInstance(this, transaction);
 
         try {
