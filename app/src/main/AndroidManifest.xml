@@ -18,10 +18,14 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher_icon" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming notification message. -->
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/white" />
+
+        <meta-data
+            android:name="device_lock_id"
+            android:value="5e8d5c4b24f5e2f2" />
 
         <meta-data
             android:name="preloaded_fonts"

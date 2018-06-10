@@ -1,7 +1,10 @@
 package com.bitnudge.ime.demo.libs;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -80,8 +83,19 @@ public class Util {
         return animation;
     }
 
-    public static boolean matchId(Context context, String locked_id) {
-        final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        return locked_id.equals(android_id);
+    public static boolean matchId(Context context) {
+        try {
+            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = app.metaData;
+            String locked_id = bundle.getString("device_lock_id");
+
+            if(locked_id == null) return false;
+            else if(locked_id.equalsIgnoreCase("all")) return true;
+
+            final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            Util.logDebug(TAG, MessageFormat.format("android id: {0}", android_id));
+            return locked_id.equals(android_id);
+        }
+        catch(Exception e) { return false; }
     }
 }
