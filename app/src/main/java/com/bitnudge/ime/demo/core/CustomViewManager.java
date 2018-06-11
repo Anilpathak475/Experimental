@@ -1,263 +1,156 @@
 package com.bitnudge.ime.demo.core;
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.bitnudge.ime.demo.R;
+import com.bitnudge.ime.demo.interfaces.KeyView;
 import com.bitnudge.ime.demo.keyViews.AddBeneficiaryView;
 import com.bitnudge.ime.demo.keyViews.BotKeyView;
 import com.bitnudge.ime.demo.keyViews.MPinView;
+import com.bitnudge.ime.demo.keyViews.MenuView;
 import com.bitnudge.ime.demo.keyViews.PayView;
 import com.bitnudge.ime.demo.keyViews.PaymentDetailsView;
 import com.bitnudge.ime.demo.keyViews.RecevierDetailView;
-import com.bitnudge.ime.demo.keyViews.SelectToPayView;
+import com.bitnudge.ime.demo.keyViews.SelectBeneficiaryView;
+import com.bitnudge.ime.demo.keyViews.SelectedHeaderView;
+import com.bitnudge.ime.demo.keyViews.SelectionView;
 import com.bitnudge.ime.demo.keyViews.TransactionView;
 import com.bitnudge.ime.demo.libs.Util;
-import com.bitnudge.ime.demo.modle.PayTo;
-import com.bitnudge.ime.demo.modle.Transaction;
+import com.bitnudge.ime.demo.model.PayToContainer;
+import com.bitnudge.ime.demo.model.Transaction;
 
 /**
  * Created by Adhityan on 17/03/18.
  */
 
-public class CustomViewManager implements View.OnClickListener {
+public class CustomViewManager {
     private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
 
-    private PayView payView;
-    private SelectToPayView selectToPayView;
-    private TransactionView transactionView;
-    private AddBeneficiaryView addBeneficiaryView;
-    private RecevierDetailView receiverDetailView;
-    private PaymentDetailsView paymentDetailsView;
-    private BotKeyView botKeyView;
-    private MPinView mPinView;
-
-
-    private LinearLayout selectionBar;
-    private ImageView selectedIcon;
-    private TextView selectedTitle;
-    private CustomViewManager customViewManager;
+    private KeyView view;
+    private SelectionView selectionView;
+    private SelectedHeaderView headerView;
 
     public CustomViewManager(CustomIME customIME) {
         mCustomIme = customIME;
-        customViewManager = this;
     }
 
     public CustomIME getContext() {
         return mCustomIme;
     }
 
-    public void addSelectionTopBar() {
-        LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
-        LinearLayout topBarView = (LinearLayout) layoutInflater.inflate(R.layout.top_bar_view_layout, null);
-
-        ImageButton keyboardViewButton = topBarView.findViewById(R.id.gotoKeyboard);
-        ImageButton imgBtnPay = topBarView.findViewById(R.id.img_btn_pay);
-        ImageButton imgBtnBot = topBarView.findViewById(R.id.img_btn_chat);
-        ImageButton imgHistory = topBarView.findViewById(R.id.img_btn_history);
-
-        selectionBar = topBarView.findViewById(R.id.selectionBar);
-        selectedIcon = topBarView.findViewById(R.id.selectedIcon);
-        selectedTitle = topBarView.findViewById(R.id.selectedTitle);
-
-        keyboardViewButton.setOnClickListener(this);
-        imgBtnPay.setOnClickListener(this);
-        topBarView.setOnClickListener(this);
-        imgHistory.setOnClickListener(this);
-        imgBtnBot.setOnClickListener(this);
-        if (mCustomIme.isInputViewShown()) {
-            mCustomIme.hideWindow();
-        }
-        try {
-            mCustomIme.setTopBar(topBarView);
-        } catch (Exception e) {
-            Util.logException(TAG, "addSelectionTopBar", e);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (!v.isEnabled()) return;
-
-        AudioManager am = (AudioManager) mCustomIme.getSystemService(Context.AUDIO_SERVICE);
-        try {
-            if (am != null) am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, 0.9f);
-        } catch (Exception e) {
-            Util.logException(TAG, "onClick", e);
-        }
-
-        switch (v.getId()) {
-            case R.id.img_btn_pay:
-                showMPinView();
-                break;
-            case R.id.img_btn_history:
-                showTransactionView();
-                break;
-            case R.id.img_btn_chat:
-                showBotView();
-                break;
-            case R.id.top_bar_root:
-                try {
-                    mCustomIme.restoreInputTarget();
-                } catch (Exception e) {
-                    Util.logException(TAG, "onClick", e);
-                }
-                break;
-            case R.id.gotoKeyboard:
-                restoreToSelectionBar();
-                break;
-        }
-    }
-
     private void destroyViews() {
-        if (payView != null) payView.destroy();
-        payView = null;
+        if (view != null) view.destroy();
+        view = null;
 
-        if (selectToPayView != null) selectToPayView.destroy();
-        selectToPayView = null;
+        if (selectionView != null) selectionView.destroy();
+        selectionView = null;
 
-        if (transactionView != null) transactionView.destroy();
-        selectToPayView = null;
-
-        if (receiverDetailView != null) receiverDetailView.destroy();
-        receiverDetailView = null;
-
-        if (addBeneficiaryView != null) addBeneficiaryView.destroy();
-        addBeneficiaryView = null;
-
-        if (paymentDetailsView != null) paymentDetailsView.destroy();
-        paymentDetailsView = null;
-
-        if (botKeyView != null) botKeyView.destroy();
-        botKeyView = null;
-
-        if (mPinView != null) mPinView.destroy();
-        mPinView = null;
-
-
+        if (headerView != null) headerView.destroy();
+        headerView = null;
     }
 
-    private void slideInSelectedBar(String title, int icon) {
-        selectedTitle.setText(title);
-        selectedIcon.setImageDrawable(ContextCompat.getDrawable(mCustomIme, icon));
-        selectionBar.setVisibility(View.GONE);
-    }
+    public void showSelectionBar() {
+        destroyViews();
+        //if (mCustomIme.isInputViewShown()) mCustomIme.hideWindow();
+        selectionView = SelectionView.getInstance(this);
 
-    public void restoreToSelectionBar() {
-        selectionBar.setVisibility(View.VISIBLE);
         try {
+            mCustomIme.setTopBar(selectionView.getView());
             mCustomIme.restoreInputTarget();
             mCustomIme.showKeyboardView();
+            mCustomIme.onFinishInput();
         } catch (Exception e) {
-            Util.logException(TAG, "onClick", e);
+            Util.logException(TAG, "showSelectionBar", e);
         }
     }
 
-    public void showPayView(final PayTo payTo) {
+    private void showSelectedBar(String title, int icon) {
         destroyViews();
-        payView = PayView.getInstance(customViewManager, payTo);
+        //showSelectedBar("MPin", R.drawable.moneygram_logo);
+        headerView = SelectedHeaderView.getInstance(this, title, icon);
+
         try {
-            slideInSelectedBar("Pay", R.drawable.moneygram_logo);
-            Util.showView(mCustomIme, payView.getView());
-            mCustomIme.showCustomView(payView.getView());
+            mCustomIme.setTopBar(headerView.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Pay View", e);
+            Util.logException(TAG, "showMPinView", e);
         }
     }
 
-    public void showSelectToPayView() {
+    public void showMPinView() {
         destroyViews();
-        addSelectionTopBar();
-        slideInSelectedBar("Select Beneficiary", R.drawable.moneygram_logo);
-        selectToPayView = SelectToPayView.getInstance(this);
+        //showSelectedBar("MPin", R.drawable.moneygram_logo);
+        view = MPinView.getInstance(this);
 
         try {
-            Util.showView(mCustomIme, selectToPayView.getView());
-            mCustomIme.showCustomView(selectToPayView.getView());
+            mCustomIme.setTopBar(view.getView());
         } catch (Exception e) {
-            Util.logException(TAG, "Select Beneficiary", e);
+            Util.logException(TAG, "showMPinView", e);
         }
+    }
+
+    public void showPayView(final PayToContainer payTo) {
+        destroyViews();
+        showSelectedBar("Pay", R.drawable.moneygram_logo);
+
+        view = PayView.getInstance(this, payTo);
+        Util.showView(mCustomIme, view.getView());
     }
 
     public void showTransactionView() {
         destroyViews();
-        slideInSelectedBar("History", R.drawable.transactions_icon);
-        transactionView = TransactionView.getInstance(this);
+        showSelectedBar("History", R.drawable.transactions_icon);
 
-        try {
-            Util.showView(mCustomIme, transactionView.getView());
-            mCustomIme.showCustomView(transactionView.getView());
-        } catch (Exception e) {
-            Util.logException(TAG, "History", e);
-        }
+        view = TransactionView.getInstance(this);
+        Util.showView(mCustomIme, view.getView());
     }
 
     public void showAddBeneficaryView() {
         destroyViews();
-        slideInSelectedBar("Add Beneficiary", R.drawable.moneygram_logo);
-        addBeneficiaryView = AddBeneficiaryView.getInstance(this);
-        try {
-            Util.showView(mCustomIme, addBeneficiaryView.getView());
-            mCustomIme.showCustomView(addBeneficiaryView.getView());
-        } catch (Exception e) {
-            Util.logException(TAG, "Add Beneficiary", e);
-        }
+        showSelectedBar("Add Beneficiary", R.drawable.moneygram_logo);
+
+        view = AddBeneficiaryView.getInstance(this);
+        Util.showView(mCustomIme, view.getView());
     }
 
     private void showReceiverDetailView() {
         destroyViews();
-        slideInSelectedBar("Receiver Detail", R.drawable.moneygram_logo);
-        receiverDetailView = RecevierDetailView.getInstance(mCustomIme);
+        showSelectedBar("Receiver Detail", R.drawable.moneygram_logo);
 
-        try {
-            mCustomIme.showCustomView(receiverDetailView.getView());
-        } catch (Exception e) {
-            Util.logException(TAG, "Receiver Detail", e);
-        }
+        view = RecevierDetailView.getInstance(this);
+        Util.showView(mCustomIme, view.getView());
     }
 
     public void showBotView() {
         destroyViews();
-        slideInSelectedBar("Chat", R.drawable.bot_icon);
-        botKeyView = BotKeyView.getInstance(mCustomIme);
+        showSelectedBar("Chat", R.drawable.bot_icon);
 
-        try {
-            mCustomIme.showCustomView(botKeyView.getView());
-        } catch (Exception e) {
-            Util.logException(TAG, "Chat", e);
-        }
+        view = BotKeyView.getInstance(this);
+        Util.showView(mCustomIme, view.getView());
     }
 
     public void showPaymentDetailsView(Transaction transaction) {
         destroyViews();
-        slideInSelectedBar("Payment Status", R.drawable.moneygram_logo);
-        paymentDetailsView = PaymentDetailsView.getInstance(this, transaction);
+        showSelectedBar("Pay Status", R.drawable.moneygram_logo);
 
-        try {
-            Util.showView(mCustomIme, paymentDetailsView.getView());
-            mCustomIme.showCustomView(paymentDetailsView.getView());
-        } catch (Exception e) {
-            Util.logException(TAG, "Pay Status", e);
-        }
+        view = PaymentDetailsView.getInstance(this, transaction);
+        Util.showView(mCustomIme, view.getView());
     }
 
-    private void showMPinView() {
+    public void showMenuView() {
         destroyViews();
-        slideInSelectedBar("MPin", R.drawable.moneygram_logo);
-        mPinView = MPinView.getInstance(this);
+        showSelectedBar("What do you want to do?", R.drawable.moneygram_logo);
 
+        view = MenuView.getInstance(this);
+        Util.showView(mCustomIme, view.getView());
+    }
+
+    public void showSelectBenefciaryView() {
+        destroyViews();
+        showSelectedBar("Who do you want to pay?", R.drawable.moneygram_logo);
+
+        view = SelectBeneficiaryView.getInstance(this);
         try {
-            mCustomIme.setTopBar(mPinView.getView());
-        } catch (Exception e) {
-            Util.logException(TAG, "MPin", e);
+            mCustomIme.showCustomView(view.getView());
         }
+        catch (Exception e) { Util.logException(TAG, "showSelectBenefciaryView", e); }
     }
 }

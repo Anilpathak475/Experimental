@@ -1,4 +1,4 @@
-package com.bitnudge.ime.demo.modle;
+package com.bitnudge.ime.demo.model;
 
 import com.stfalcon.chatkit.commons.models.IMessage;
 
@@ -16,9 +16,18 @@ public class ChatMessage implements IMessage {
     private String id;
     private ChatAuthor author;
 
-    public ChatMessage(String text, ChatAuthor.AuthorType authorType, Date createdAt) { this(text, new ChatAuthor(authorType), createdAt); }
-    public ChatMessage(String text, ChatAuthor.AuthorType authorType) { this(text, new ChatAuthor(authorType)); }
-    public ChatMessage(String text, ChatAuthor author) { this(text, author, new Date()); }
+    public ChatMessage(String text, ChatAuthor.AuthorType authorType, Date createdAt) {
+        this(text, new ChatAuthor(authorType), createdAt);
+    }
+
+    public ChatMessage(String text, ChatAuthor.AuthorType authorType) {
+        this(text, new ChatAuthor(authorType));
+    }
+
+    public ChatMessage(String text, ChatAuthor author) {
+        this(text, author, new Date());
+    }
+
     public ChatMessage(String text, ChatAuthor author, Date createdAt) {
         ID++;
         this.createdAt = createdAt;

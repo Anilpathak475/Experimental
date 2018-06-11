@@ -1,51 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/layout_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/img_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/cross" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txt_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="30/05/2018"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txt_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Saturday"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -55,63 +24,89 @@
                 android:layout_height="wrap_content"
                 android:text="Shailesh"
                 android:textColor="#4a4a4a"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:elevation="15dp">
 
-                android:gravity="center_vertical"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/white_circle_big" />
 
-                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/img_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_united_arab_emirates"
+                    android:elevation="5dp" />
+            </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/text_with_bullet"
+                android:textColor="@color/light_grey"
+                android:textSize="18sp" />
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/white_circle_big" />
+            <TextView
+                android:id="@+id/txt_card_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:enabled="false"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="1234"
+                android:textColor="#4a4a4a"
+                android:textSize="18sp" />
 
-                    <ImageView
-                        android:id="@+id/img_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_united_arab_emirates"
-                        android:elevation="5dp" />
-                </RelativeLayout>
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/cross" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/text_with_bullet"
-                    android:textColor="@color/light_grey"
-                    android:textSize="19sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txt_card_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:enabled="false"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="1234"
-                    android:textColor="#4a4a4a"
-                    android:textSize="19sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30/05/2018"
+                android:layout_gravity="center_vertical"
+                android:textColor="#9b9b9b"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txt_day"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="#9b9b9b"
+                android:text="Saturday"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="3dp">
 
             <TextView
                 android:id="@+id/txt_payment_amount"
@@ -119,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:textColor="#9b9b9b"
                 android:text="AED 100"
                 android:textSize="18sp" />
 
@@ -127,41 +123,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="15dp"
-                android:background="@color/green"
+                android:background="#7bce1b"
                 android:padding="10dp"
                 android:text="Successful"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
         </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Notes / Actions" />
+            android:layout_marginTop="10dp"
+            android:textColor="#9b9b9b"
+            android:text="Notes / Actions"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/txt_reason"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
             android:text="Incorrect account Details"
-            android:textColor="@color/dark_grey"
-            android:textSize="18sp" />
-
+            android:textColor="#4a4a4a"
+            android:textSize="14sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="right"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_live_chat"
                 android:layout_width="116dp"
                 android:layout_height="wrap_content"
-                android:background="@color/red"
+                android:background="#da291c"
                 android:padding="10dp"
                 android:text="Live Chat"
                 android:textColor="@color/white" />
@@ -171,7 +170,7 @@
                 android:layout_width="116dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:background="@color/red"
+                android:background="#da291c"
                 android:padding="10dp"
                 android:text="Update Info"
                 android:textColor="@color/white" />

@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bitnudge.ime.demo.R;
-import com.bitnudge.ime.demo.modle.Transaction;
+import com.bitnudge.ime.demo.model.Transaction;
 import com.bitnudge.ime.demo.viewholder.TransactionViewHolder;
 
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
+
     private ClickListener clickListener;
     private List<Transaction> pays;
 

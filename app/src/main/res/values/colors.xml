@@ -8,5 +8,10 @@
     <color name="hint_color">#d1d1d6</color>
     <color name="green">#7bce1b</color>
     <color name="chat_button_color">#1565C0</color>
-
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#c8e8ff</color>
+    <color name="buy_button_color">#1565C0</color>
+    <color name="share_color">#0b7b1e</color>
 </resources>

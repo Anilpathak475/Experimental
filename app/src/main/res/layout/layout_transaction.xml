@@ -18,24 +18,25 @@
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="10dp"
-            android:layout_height="25dp"
+            android:layout_height="20dp"
             android:background="@drawable/ic_back"
+            android:layout_marginEnd="15dp"
             android:elevation="10dp" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/border"
-            android:elevation="15dp"
+            android:elevation="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:background="@drawable/search" />
 
             <com.bobblekeyboard.ime.BobbleEditText
@@ -43,14 +44,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="Search for transaction"
-                android:letterSpacing="-0.03"
-                android:lineSpacingExtra="9sp"
-                android:textColor="#666666"
+                android:textColor="#da291c"
                 android:textColorHint="@color/light_grey"
-                android:textCursorDrawable="@null"
-                android:textSize="14sp" />
-
+                android:textSize="16sp"
+                android:hint="Search for a transaction"
+                android:textCursorDrawable="@drawable/cursor" />
         </LinearLayout>
 
         <Spinner

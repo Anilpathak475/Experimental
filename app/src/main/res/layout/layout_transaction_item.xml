@@ -23,7 +23,7 @@
                 android:layout_marginStart="12dp"
                 android:text="Last Week"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -35,18 +35,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/layout_person_details"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/layout_period"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toStartOf="@id/img_right"
-                    android:padding="5dp">
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp">
 
                     <TextView
                         android:id="@+id/txt_name"
@@ -58,15 +54,17 @@
                         android:lineSpacingExtra="5sp"
                         android:text="Shailesh Tiwari"
                         android:textColor="#4a4a4a"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
                     <View
                         android:id="@+id/view_divider"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_toEndOf="@id/txt_name"
                         android:background="@color/light_background" />
 
@@ -80,11 +78,11 @@
                         android:lineSpacingExtra="9sp"
                         android:text="AED 1000 "
                         android:textColor="#9b9b9b"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="end"
@@ -95,11 +93,7 @@
                     android:id="@+id/layout_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_person_details"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toStartOf="@id/img_right"
-                    android:padding="5dp">
+                    android:layout_marginTop="3dp">
 
                     <TextView
                         android:id="@+id/txt_date"
@@ -109,18 +103,18 @@
                         android:layout_centerVertical="true"
                         android:text="26/05/18"
                         android:textColor="#9b9b9b"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/txt_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@id/txt_date"
                         android:text="Saturday"
                         android:textColor="#9b9b9b"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/txt_status"
@@ -128,11 +122,9 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginStart="10dp"
                         android:text="Success"
                         android:textColor="#9b9b9b"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
             </LinearLayout>
 

@@ -8,10 +8,12 @@ import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
+import com.bitnudge.ime.demo.core.CustomViewManager;
+import com.bitnudge.ime.demo.interfaces.KeyView;
 import com.bitnudge.ime.demo.libs.DialogFlow;
 import com.bitnudge.ime.demo.libs.Util;
-import com.bitnudge.ime.demo.modle.ChatAuthor;
-import com.bitnudge.ime.demo.modle.ChatMessage;
+import com.bitnudge.ime.demo.model.ChatAuthor;
+import com.bitnudge.ime.demo.model.ChatMessage;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
@@ -25,19 +27,22 @@ import java.text.MessageFormat;
  */
 
 @SuppressLint("ViewConstructor")
-public class BotKeyView implements View.OnClickListener, MessageInput.InputListener, DialogFlow.AIInterface {
+public class BotKeyView implements KeyView, View.OnClickListener, MessageInput.InputListener, DialogFlow.AIInterface {
     private String TAG = this.getClass().getSimpleName();
 
     private CustomIME mCustomIme;
+    private CustomViewManager customViewManager;
     private View v;
 
     private MessageInput chatMessage;
     private MessagesListAdapter<ChatMessage> adapter;
     private DialogFlow flow;
 
-    private BotKeyView(CustomIME context) {
-        this.mCustomIme = context;
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+    private BotKeyView(CustomViewManager customViewManager) {
+        this.mCustomIme = customViewManager.getContext();
+        this.customViewManager = customViewManager;
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this.mCustomIme);
         v = layoutInflater.inflate(R.layout.bot_view_layout, null);
 
         flow = new DialogFlow(mCustomIme);
@@ -56,10 +61,16 @@ public class BotKeyView implements View.OnClickListener, MessageInput.InputListe
         chatContent.setAdapter(adapter);
     }
 
+    public static BotKeyView getInstance(CustomViewManager customViewManager) {
+        return new BotKeyView(customViewManager);
+    }
+
+    @Override
     public View getView() {
         return v;
     }
 
+    @Override
     public void destroy() {
         mCustomIme = null;
         flow = null;
@@ -67,12 +78,10 @@ public class BotKeyView implements View.OnClickListener, MessageInput.InputListe
         adapter = null;
     }
 
-    public static BotKeyView getInstance(CustomIME context) {
-        return new BotKeyView(context);
-    }
-
     @Override
     public boolean onSubmit(CharSequence ch) {
+        Util.makeTapSound(mCustomIme);
+
         String input = ch.toString();
         flow.executeRequest(input, this);
         adapter.addToStart(new ChatMessage(input, ChatAuthor.AuthorType.USER), true);
@@ -87,7 +96,9 @@ public class BotKeyView implements View.OnClickListener, MessageInput.InputListe
             view.findFocus();
             view.requestFocus();
             mCustomIme.setInputTarget(chatMessage.getInputEditText());
-        } catch (Exception e) { Util.logException(TAG, "onClick", e); }
+        } catch (Exception e) {
+            Util.logException(TAG, "onClick", e);
+        }
     }
 
     @Override

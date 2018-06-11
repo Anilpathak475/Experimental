@@ -13,8 +13,10 @@ import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.adapter.TransactionAdapter;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
-import com.bitnudge.ime.demo.modle.Card;
-import com.bitnudge.ime.demo.modle.Transaction;
+import com.bitnudge.ime.demo.interfaces.KeyView;
+import com.bitnudge.ime.demo.libs.Util;
+import com.bitnudge.ime.demo.model.Card;
+import com.bitnudge.ime.demo.model.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,8 +24,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class TransactionView implements TransactionAdapter.ClickListener {
+public class TransactionView implements KeyView, TransactionAdapter.ClickListener {
+    private String TAG = this.getClass().getSimpleName();
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -36,19 +42,20 @@ public class TransactionView implements TransactionAdapter.ClickListener {
     @BindView(R.id.img_back)
     ImageView imgBack;
 
-    private String TAG = this.getClass().getSimpleName();
-    private CustomViewManager viewManager;
+    private Unbinder unbinder;
     private CustomIME mCustomIme;
+    private CustomViewManager customViewManager;
+    private boolean inProgress;
     private View v;
 
 
-    private TransactionView(CustomViewManager viewManager) {
-        this.viewManager = viewManager;
-        this.mCustomIme = viewManager.getContext();
+    private TransactionView(CustomViewManager customViewManager) {
+        this.mCustomIme = customViewManager.getContext();
+        this.customViewManager = customViewManager;
 
         LayoutInflater layoutInflater = LayoutInflater.from(this.mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_transaction, null);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this.mCustomIme));
         recyclerView.setAdapter(new TransactionAdapter(new ArrayList<Transaction>(), this));
@@ -57,27 +64,41 @@ public class TransactionView implements TransactionAdapter.ClickListener {
         status.add("Pending");
         status.add("Failed");
         status.add("Successful");
-        spnStatus.setAdapter(new ArrayAdapter<>(mCustomIme, android.R.layout.simple_dropdown_item_1line, status));
+        spnStatus.setAdapter(new ArrayAdapter<String>(mCustomIme, android.R.layout.simple_dropdown_item_1line, status));
+
+        inProgress = false;
     }
 
-    public static TransactionView getInstance(CustomViewManager viewManager) {
-        return new TransactionView(viewManager);
+    public static TransactionView getInstance(CustomViewManager customViewManager) {
+        return new TransactionView(customViewManager);
     }
 
+    @Override
     public View getView() {
         return v;
     }
 
+    @Override
     public void destroy() {
         mCustomIme = null;
-        recyclerView = null;
-        edtSearch = null;
-        spnStatus = null;
-        imgBack = null;
+        customViewManager = null;
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.img_back)
+    void onClickBack() {
+        if (inProgress) return;
+        inProgress = true;
+
+        Util.makeTapSound(mCustomIme);
+        customViewManager.showMenuView();
     }
 
     @Override
     public void onItemClick(int position) {
+        if (inProgress) return;
+        inProgress = true;
+
         Transaction transaction = new Transaction();
         transaction.setName("Shailesh Tiwari");
         transaction.setCard(new Card("1234", 1));
@@ -86,6 +107,8 @@ public class TransactionView implements TransactionAdapter.ClickListener {
         transaction.setStatus("Successful");
         transaction.setDate(new Date());
         transaction.setCurrency("USD");
-        viewManager.showPaymentDetailsView(transaction);
+
+        Util.makeTapSound(mCustomIme);
+        customViewManager.showPaymentDetailsView(transaction);
     }
 }

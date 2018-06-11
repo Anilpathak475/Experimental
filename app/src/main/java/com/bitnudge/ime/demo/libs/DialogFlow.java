@@ -33,7 +33,9 @@ public class DialogFlow {
                 final AIRequest request = requests[0];
                 try {
                     return aiDataService.request(aiRequest);
-                } catch (AIServiceException e) { i.aiError(e.getMessage()); }
+                } catch (AIServiceException e) {
+                    i.aiError(e.getMessage());
+                }
                 return null;
             }
 
@@ -50,6 +52,7 @@ public class DialogFlow {
 
     public interface AIInterface {
         void aiResponse(String response);
+
         void aiError(String message);
     }
 }

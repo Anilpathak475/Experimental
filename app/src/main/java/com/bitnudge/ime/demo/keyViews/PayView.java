@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,22 +18,25 @@ import com.bitnudge.ime.demo.adapter.CountrySpinnerAdapter;
 import com.bitnudge.ime.demo.adapter.SpinnerAdapter;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
+import com.bitnudge.ime.demo.interfaces.KeyView;
 import com.bitnudge.ime.demo.libs.Util;
-import com.bitnudge.ime.demo.modle.Card;
-import com.bitnudge.ime.demo.modle.Country;
-import com.bitnudge.ime.demo.modle.PayTo;
-import com.bitnudge.ime.demo.modle.Transaction;
+import com.bitnudge.ime.demo.model.Card;
+import com.bitnudge.ime.demo.model.Country;
+import com.bitnudge.ime.demo.model.PayToContainer;
 import com.bobblekeyboard.ime.BobbleEditText;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class PayView implements View.OnClickListener, View.OnFocusChangeListener, BobbleEditText.OnKeyListener {
+public class PayView implements KeyView, View.OnClickListener, View.OnFocusChangeListener, BobbleEditText.OnKeyListener {
+    private String TAG = this.getClass().getSimpleName();
+
     @BindView(R.id.spn_payment_details)
     Spinner spnCardDetails;
 
@@ -40,9 +45,6 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     @BindView(R.id.img_add_card)
     ImageView imgAddCard;
-
-    @BindView(R.id.img_back)
-    ImageView imgBack;
 
     @BindView(R.id.img_country)
     Spinner imgCountry;
@@ -53,9 +55,6 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     @BindView(R.id.img_icon)
     ImageView imgIcon;
 
-    @BindView(R.id.txt_card_no)
-    TextView txtCardNo;
-
     @BindView(R.id.edt_currency)
     EditText edtCurrency;
 
@@ -63,25 +62,31 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
     EditText edtConvertingRate;
 
     @BindView(R.id.layout_parent)
-    ScrollView layoutParent;
+    FrameLayout layoutParent;
 
-    private String TAG = this.getClass().getSimpleName();
+    @BindView(R.id.confirm_payment_overlay)
+    RelativeLayout confirmOverlay;
+
+
+    private Unbinder unbinder;
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
-    private PayTo payTo;
     private View v;
+
     private List<Card> cards;
     private boolean inProgress;
+    private PayToContainer payTo;
 
-    private PayView(final CustomViewManager customViewManager, PayTo payTo) {
+    private PayView(final CustomViewManager customViewManager, PayToContainer payTo) {
         this.mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
         this.payTo = payTo;
+
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_pay_view, null);
-        ButterKnife.bind(this, v);
-        setDefaultAdapter();
+        unbinder = ButterKnife.bind(this, v);
 
+        setDefaultAdapter();
         edtConvertingRate.setOnClickListener(this);
         edtConvertingRate.setOnFocusChangeListener(this);
 
@@ -90,13 +95,11 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         edtCurrency.setOnKeyListener(this);
         edtConvertingRate.setOnKeyListener(this);
 
-        imgBack.setOnClickListener(this);
         txtPayName.setText(payTo.getName());
-        txtCardNo.setText(extractLastFourDigits(payTo.getCard().getCardNo()));
-        imgIcon.setBackground(mCustomIme.getResources().getDrawable(payTo.getCard().getId()));
+        imgIcon.setBackground(mCustomIme.getResources().getDrawable(payTo.getCard().getDrawableId()));
     }
 
-    public static PayView getInstance(CustomViewManager customViewManager, PayTo payTo) {
+    public static PayView getInstance(CustomViewManager customViewManager, PayToContainer payTo) {
         return new PayView(customViewManager, payTo);
     }
 
@@ -106,13 +109,8 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
 
     public void destroy() {
         mCustomIme = null;
-        edtConvertingRate = null;
-        edtCurrency = null;
-        txtCardNo = null;
-        spnCardDetails = null;
-        imgIcon = null;
-        imgCountry = null;
-        imgAddCard = null;
+        customViewManager = null;
+        unbinder.unbind();
     }
 
     private void setDefaultAdapter() {
@@ -159,6 +157,23 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         spnConvertingCountry.setSelection(2);
     }
 
+    @OnClick(R.id.img_back)
+    void onClickBack() {
+        if (inProgress) return;
+        inProgress = true;
+
+        Util.makeTapSound(mCustomIme);
+        mCustomIme.onFinishInput();
+        try {
+            mCustomIme.restoreInputTarget();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Util.hideView(mCustomIme, layoutParent);
+        customViewManager.showSelectBenefciaryView();
+    }
+
     @Override
     public void onClick(View v) {
         try {
@@ -170,9 +185,6 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
                 case R.id.edt_converting_rate:
                     edtConvertingRate.requestFocus();
                     mCustomIme.setInputTarget(edtConvertingRate);
-                    break;
-                case R.id.img_back:
-                    customViewManager.showSelectToPayView();
                     break;
             }
         } catch (Exception e) {
@@ -204,42 +216,43 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
             if(v.getId() == R.id.edt_currency) {
                 String text = edtCurrency.getText().toString();
 
-                if (text.length() > 4) {
-                    text = text.substring(4).trim().replaceAll(",", "");
+                if (text.length() > 0) {
+                    text = text.replaceAll(",", "");
                     float value = Float.parseFloat(text);
                     value = value * 3.67f;
-                    edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
-                } else if (text.length() == 4) edtConvertingRate.setText("AED 0");
-                else return true;
+                    edtConvertingRate.setText(String.valueOf(value));
+                } else edtConvertingRate.setText("0");
             }
             else {
                 String text = edtConvertingRate.getText().toString();
 
-                if (text.length() > 4) {
-                    text = text.substring(4).trim().replaceAll(",", "");
+                if (text.length() > 0) {
+                    text = text.replaceAll(",", "");
                     float value = Float.parseFloat(text);
                     value = value * 3.67f;
-                    edtCurrency.setText(MessageFormat.format("USD {0}", value));
-                } else if (text.length() == 4) edtCurrency.setText("USD 0");
-                else return true;
+                    edtCurrency.setText(String.valueOf(value));
+                } else edtCurrency.setText("0");
             }
         }
         else if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            if(edtConvertingRate.getText().length() > 4) {
+            String value = edtConvertingRate.getText().toString();
+
+            if(value.length() > 0 && !value.equals("0")) {
                 if(inProgress) return true;
                 inProgress = true;
 
-                layoutParent.startAnimation(Util.hideView());
-                layoutParent.setVisibility(View.GONE);
-                Transaction transaction = new Transaction();
-                transaction.setName(payTo.getName());
-                transaction.setCard(cards.get(spnCardDetails.getSelectedItemPosition()));
-                transaction.setAmount(edtConvertingRate.getText().toString());
-                transaction.setNotes("-");
-                transaction.setStatus("Successful");
-                transaction.setDate(new Date());
-                transaction.setCurrency(edtCurrency.getText().toString());
-                customViewManager.showPaymentDetailsView(transaction);
+                edtCurrency.clearFocus();
+                edtConvertingRate.clearFocus();
+                confirmOverlay.setVisibility(View.VISIBLE);
+                confirmOverlay.setClickable(true);
+                confirmOverlay.setFocusable(true);
+
+                try {
+                    mCustomIme.sendTextToConnectedInput(MessageFormat.format("You have been paid {0} AED. Click https://goo.gl/sRRXmU for the receipt.", value));
+
+                    mCustomIme.onFinishInput();
+                    mCustomIme.restoreInputTarget();
+                } catch (Exception e) { Util.logException(TAG, "onKey", e); }
             }
             else Toast.makeText(mCustomIme, "To transfer, please fill in the amount.", Toast.LENGTH_SHORT).show();
 
@@ -248,24 +261,24 @@ public class PayView implements View.OnClickListener, View.OnFocusChangeListener
         else if(v.getId() == R.id.edt_currency) {
             String text = edtCurrency.getText().toString();
 
-            if(text.length() > 4) {
-                text = text.substring(4).trim().replaceAll(",", "");
+            if(text.length() > 0) {
+                text = text.replaceAll(",", "");
                 float value = Float.parseFloat(text);
                 value = value * 3.67f;
-                edtConvertingRate.setText(MessageFormat.format("AED {0}", value));
+                edtConvertingRate.setText(String.valueOf(value));
             }
-            else edtConvertingRate.setText("AED 0");
+            else edtConvertingRate.setText("0");
         }
         else if(v.getId() == R.id.edt_converting_rate) {
             String text = edtConvertingRate.getText().toString();
 
-            if(text.length() > 4) {
-                text = text.substring(4).trim().replaceAll(",", "");
+            if(text.length() > 0) {
+                text = text.replaceAll(",", "");
                 float value = Float.parseFloat(text);
                 value = value * 0.27f;
-                edtCurrency.setText(MessageFormat.format("USD {0}", value));
+                edtCurrency.setText(String.valueOf(value));
             }
-            else edtCurrency.setText("USD 0");
+            else edtCurrency.setText("0");
         }
 
         return false;

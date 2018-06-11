@@ -1,9 +1,14 @@
-package com.bitnudge.ime.demo.modle;
+package com.bitnudge.ime.demo.model;
 
-public class PayTo {
-
+public class PayToContainer {
     private String name;
     private Card card;
+
+    public PayToContainer(String name) { this(name, "", 0); }
+    public PayToContainer(String name, String cardNo, int id) {
+        this.card = new Card(cardNo, id);
+        this.name = name;
+    }
 
     public String getName() {
         return name;

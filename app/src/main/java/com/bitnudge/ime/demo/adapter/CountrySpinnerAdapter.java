@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bitnudge.ime.demo.R;
-import com.bitnudge.ime.demo.modle.Country;
+import com.bitnudge.ime.demo.model.Country;
 
 import java.util.List;
 

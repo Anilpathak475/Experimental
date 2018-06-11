@@ -10,6 +10,8 @@ import android.widget.Spinner;
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
 import com.bitnudge.ime.demo.core.CustomViewManager;
+import com.bitnudge.ime.demo.interfaces.KeyView;
+import com.bitnudge.ime.demo.libs.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class AddBeneficiaryView {
+public class AddBeneficiaryView implements KeyView {
+    private String TAG = this.getClass().getSimpleName();
 
     @BindView(R.id.spn_country_code)
     Spinner spnCountryCode;
@@ -41,19 +45,20 @@ public class AddBeneficiaryView {
     @BindView(R.id.btn_next)
     Button btnNext;
 
-    private String TAG = this.getClass().getSimpleName();
     private CustomIME mCustomIme;
     private CustomViewManager customViewManager;
+    private Unbinder unbinder;
     private View v;
 
 
     private AddBeneficiaryView(CustomViewManager customViewManager) {
         this.customViewManager = customViewManager;
         this.mCustomIme = customViewManager.getContext();
+
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_add_benefeciary, null);
+        unbinder = ButterKnife.bind(this, v);
 
-        ButterKnife.bind(this, v);
         List<String> codes = new ArrayList<>();
         codes.add("Select");
         codes.add("+91");
@@ -62,35 +67,27 @@ public class AddBeneficiaryView {
         codes.add("+94");
         codes.add("+95");
         spnCountryCode.setAdapter(new ArrayAdapter<String>(mCustomIme, android.R.layout.simple_dropdown_item_1line, codes));
-
     }
 
     public static AddBeneficiaryView getInstance(CustomViewManager customViewManager) {
         return new AddBeneficiaryView(customViewManager);
     }
 
-    @OnClick(R.id.btn_next)
+    @OnClick({ R.id.btn_next, R.id.img_back })
     void onClickNext() {
-        customViewManager.showSelectToPayView();
+        Util.makeTapSound(mCustomIme);
+        customViewManager.showSelectBenefciaryView();
     }
 
-    @OnClick(R.id.img_back)
-    void onClickBack() {
-        customViewManager.showSelectToPayView();
-    }
-
+    @Override
     public View getView() {
         return v;
     }
 
+    @Override
     public void destroy() {
         mCustomIme = null;
-        edtEmail = null;
-        edtFirstname = null;
-        edtLastName = null;
-        edtPhone = null;
-        edtReceivingCountry = null;
-        btnNext = null;
-        spnCountryCode = null;
+        customViewManager = null;
+        unbinder.unbind();
     }
 }

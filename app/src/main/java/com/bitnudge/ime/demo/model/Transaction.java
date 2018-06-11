@@ -1,4 +1,4 @@
-package com.bitnudge.ime.demo.modle;
+package com.bitnudge.ime.demo.model;
 
 import java.util.Date;
 

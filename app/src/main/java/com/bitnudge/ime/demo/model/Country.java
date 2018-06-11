@@ -1,7 +1,6 @@
-package com.bitnudge.ime.demo.modle;
+package com.bitnudge.ime.demo.model;
 
 public class Country {
-
     private String name;
     private int id;
 

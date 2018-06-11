@@ -1,4 +1,4 @@
-package com.bitnudge.ime.demo.modle;
+package com.bitnudge.ime.demo.model;
 
 import com.stfalcon.chatkit.commons.models.IUser;
 
@@ -11,19 +11,20 @@ public class ChatAuthor implements IUser {
 
     @Override
     public String getId() {
-        if(type == AuthorType.USER) return "1";
+        if (type == AuthorType.USER) return "1";
         else return "0";
     }
 
     @Override
     public String getName() {
-        if(type == AuthorType.USER) return "Adhityan";
+        if (type == AuthorType.USER) return "Adhityan";
         else return "Bot";
     }
 
     @Override
     public String getAvatar() {
-        if(type == AuthorType.USER) return "https://secure.meetupstatic.com/photos/member/a/2/9/f/member_270641631.jpeg";
+        if (type == AuthorType.USER)
+            return "https://secure.meetupstatic.com/photos/member/a/2/9/f/member_270641631.jpeg";
         else return "https://infosertecblog.files.wordpress.com/2016/08/bot-de-telegram.jpg";
     }
 

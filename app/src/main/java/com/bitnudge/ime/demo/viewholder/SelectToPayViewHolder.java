@@ -12,7 +12,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SelectToPayViewHolder extends RecyclerView.ViewHolder {
-
     @BindView(R.id.txt_name)
     public TextView txtName;
 

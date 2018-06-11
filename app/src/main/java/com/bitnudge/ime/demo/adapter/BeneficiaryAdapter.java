@@ -8,18 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bitnudge.ime.demo.R;
-import com.bitnudge.ime.demo.modle.PayTo;
+import com.bitnudge.ime.demo.interfaces.AdapterClickListener;
+import com.bitnudge.ime.demo.model.Bill;
+import com.bitnudge.ime.demo.model.PayToContainer;
 import com.bitnudge.ime.demo.viewholder.SelectToPayViewHolder;
 
 import java.util.List;
 
-public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHolder> {
-
-    private ClickListener clickListener;
-    private List<PayTo> pays;
+public class BeneficiaryAdapter extends RecyclerView.Adapter<SelectToPayViewHolder> {
+    private AdapterClickListener clickListener;
+    private List<PayToContainer> pays;
     private Context context;
 
-    public SelectToPayAdapter(List<PayTo> pays, ClickListener clickListener) {
+    public BeneficiaryAdapter(List<PayToContainer> pays, AdapterClickListener clickListener) {
         this.clickListener = clickListener;
         this.pays = pays;
     }
@@ -29,16 +30,17 @@ public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHold
     public SelectToPayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.layout_select_to_pay_view_holder, parent, false);
+        View view = layoutInflater.inflate(R.layout.layout_beneficiary_view_holder, parent, false);
         return new SelectToPayViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SelectToPayViewHolder holder, final int position) {
-        PayTo payTo = pays.get(position);
+        PayToContainer payTo = pays.get(position);
         holder.txtName.setText(payTo.getName());
         holder.txtCardName.setText(payTo.getCard().getCardNo());
-        holder.imgIcon.setBackground(context.getResources().getDrawable(payTo.getCard().getId()));
+        holder.imgIcon.setBackground(context.getResources().getDrawable(payTo.getCard().getDrawableId()));
+
         holder.imgInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,12 +58,5 @@ public class SelectToPayAdapter extends RecyclerView.Adapter<SelectToPayViewHold
     @Override
     public int getItemCount() {
         return pays.size();
-    }
-
-
-    public interface ClickListener {
-        void onItemClick(int position);
-
-        void onInfoClick(int position);
     }
 }

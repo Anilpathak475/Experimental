@@ -1,21 +1,27 @@
 package com.bitnudge.ime.demo.libs;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
-import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Adhityan on 3/20/18.
@@ -55,47 +61,96 @@ public class Util {
         logException("", source, null);
     }
 
-    public static void showView(Context context, final View view) {
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_down);
-        //use this to make it longer:  animation.setDuration(1000);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+    public static void showView(final CustomIME context, final View view) {
+        try {
+            context.showCustomView(view);
+        }
+        catch (Exception e) { Util.logException(TAG, "showView", e); }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.GONE);
-            }
-        });
-
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         view.startAnimation(animation);
     }
 
-    public static Animation hideView() {
-        Animation animation = new TranslateAnimation(0, -1000, 0, 0); //May need to check the direction you want.
+    public static void hideView(final CustomIME context, final View view) {
+        /*Animation animation = new TranslateAnimation(0, -1000, 0, 0); //May need to check the direction you want.
         animation.setDuration(500);
+        animation.setFillAfter(true);*/
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_out);
         animation.setFillAfter(true);
-        return animation;
+        view.startAnimation(animation);
     }
 
-    public static boolean matchId(Context context) {
-        try {
-            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = app.metaData;
-            String locked_id = bundle.getString("device_lock_id");
+    public static String getStringFromDate(Date date) {
+        String formatDate = "dd/MM/yyyy";
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(formatDate, Locale.ENGLISH);
+        return dateFormatter.format(date);
+    }
 
-            if(locked_id == null) return false;
-            else if(locked_id.equalsIgnoreCase("all")) return true;
+    public static String getDay(Date date) {
+        String dateFormat = "EEEE";
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
+        return dateFormatter.format(date);
+    }
 
-            final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            Util.logDebug(TAG, MessageFormat.format("android id: {0}", android_id));
-            return locked_id.equals(android_id);
+    public static void sendNotification(Context context, String name, String description) {
+        Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_icon);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "BitNudge")
+                .setSmallIcon(R.drawable.ic_launcher_icon)
+                .setLargeIcon(bm)
+                .setContentTitle(name)
+                .setContentText(description)
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= 21) mBuilder.setVibrate(new long[0]);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("BitNudge", name, NotificationManager.IMPORTANCE_HIGH);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(true);
+            channel.setBypassDnd(true);
+            channel.setShowBadge(false);
+
+            mNotificationManager.createNotificationChannel(channel);
         }
-        catch(Exception e) { return false; }
+
+        mNotificationManager.notify(0, mBuilder.build());
+    }
+
+    public static void sendNotification(Context context, String name, String description, Bitmap background) {
+        Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_icon);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "BitNudge")
+                .setBadgeIconType(R.drawable.ic_launcher_icon)
+                .setSmallIcon(R.drawable.ic_launcher_icon)
+                .setLargeIcon(bm)
+                .setContentTitle(name)
+                .setContentText(description)
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(background))
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= 21) mBuilder.setVibrate(new long[0]);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("bitnudge-demo-bank", context.getApplicationContext().getPackageName(), NotificationManager.IMPORTANCE_HIGH);
+            channel.enableLights(true);
+            channel.setLightColor(Color.YELLOW);
+            channel.enableVibration(true);
+            channel.setBypassDnd(true);
+            channel.setShowBadge(false);
+
+            mNotificationManager.createNotificationChannel(channel);
+        }
+
+        mNotificationManager.notify(0, mBuilder.build());
     }
 }
