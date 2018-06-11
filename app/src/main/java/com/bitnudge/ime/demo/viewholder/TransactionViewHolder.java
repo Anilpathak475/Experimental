@@ -33,9 +33,6 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.txt_status)
     public TextView txtStatus;
 
-    @BindView(R.id.txt_day)
-    public TextView txtDay;
-
     public TransactionViewHolder(final View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

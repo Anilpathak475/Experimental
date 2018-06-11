@@ -97,6 +97,10 @@ public class PayView implements KeyView, View.OnClickListener, View.OnFocusChang
 
         txtPayName.setText(payTo.getName());
         imgIcon.setBackground(mCustomIme.getResources().getDrawable(payTo.getCard().getDrawableId()));
+
+        imgCountry.setEnabled(false);
+        spnCardDetails.setEnabled(false);
+        spnConvertingCountry.setEnabled(false);
     }
 
     public static PayView getInstance(CustomViewManager customViewManager, PayToContainer payTo) {

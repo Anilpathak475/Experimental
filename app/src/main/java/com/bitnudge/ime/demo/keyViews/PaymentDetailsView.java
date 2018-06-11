@@ -28,9 +28,6 @@ public class PaymentDetailsView  implements KeyView {
     @BindView(R.id.txt_date)
     TextView txtDate;
 
-    @BindView(R.id.txt_day)
-    TextView txtDay;
-
     @BindView(R.id.txt_pay_name)
     TextView txtPayName;
 
@@ -80,7 +77,6 @@ public class PaymentDetailsView  implements KeyView {
         txtStatus.setText(transaction.getStatus());
         txtReason.setText(transaction.getNotes());
         txtDate.setText(Util.getStringFromDate(transaction.getDate()));
-        txtDay.setText(Util.getDay(transaction.getDate()));
         //todo: set flag
     }
 

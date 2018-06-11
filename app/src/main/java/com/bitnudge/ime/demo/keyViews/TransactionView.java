@@ -67,6 +67,7 @@ public class TransactionView implements KeyView, TransactionAdapter.ClickListene
         spnStatus.setAdapter(new ArrayAdapter<String>(mCustomIme, android.R.layout.simple_dropdown_item_1line, status));
 
         inProgress = false;
+        spnStatus.setEnabled(false);
     }
 
     public static TransactionView getInstance(CustomViewManager customViewManager) {

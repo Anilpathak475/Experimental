@@ -60,13 +60,14 @@ public class AddBeneficiaryView implements KeyView {
         unbinder = ButterKnife.bind(this, v);
 
         List<String> codes = new ArrayList<>();
-        codes.add("Select");
         codes.add("+91");
         codes.add("+92");
         codes.add("+93");
         codes.add("+94");
         codes.add("+95");
         spnCountryCode.setAdapter(new ArrayAdapter<String>(mCustomIme, android.R.layout.simple_dropdown_item_1line, codes));
+
+        spnCountryCode.setEnabled(false);
     }
 
     public static AddBeneficiaryView getInstance(CustomViewManager customViewManager) {
