@@ -4,16 +4,21 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.bitnudge.ime.demo.R;
 import com.bitnudge.ime.demo.core.CustomIME;
@@ -152,5 +157,51 @@ public class Util {
         }
 
         mNotificationManager.notify(0, mBuilder.build());
+    }
+
+    public static boolean matchId(Context context) {
+        try {
+            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = app.metaData;
+
+            String locked_id = bundle.getString("device_lock_id");
+            if(locked_id == null) return false;
+            //Util.logDebug(TAG, MessageFormat.format("Bolted with: {0}", locked_id));
+
+            locked_id = locked_id.trim();
+            if(locked_id.equalsIgnoreCase("all")) return true;
+
+            final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            Util.logDebug(TAG, MessageFormat.format("android id: {0}", android_id));
+
+            if(!locked_id.contains(",")) return android_id.equalsIgnoreCase(locked_id);
+            else {
+                String[] ids = locked_id.split(",");
+                for (String id : ids) {
+                    id = id.trim();
+                    if(android_id.equalsIgnoreCase(id)) return true;
+                }
+                return false;
+            }
+        }
+        catch(Exception e) { Util.logException(TAG, "matchId failed", e); return false; }
+    }
+
+    public static void loginGate(CustomIME context) {
+        final String LICENCE_KEY = "W3sicGFja2FnZSI6IkxBenZpdFwvUUNmZUY5Smdna1dVXC9hUkd3RERHVG9waXN0Z1RHZWVOR0RPdz0iLCJpZCI6Miwia2V5IjoiakpxcGRyelN3bHBhd1UraWViYTYrOERvTzYwbE53UGNoU1k3b25TaWp6NWZHWmpEVmFOZ0xqV0UwSnZiNVhKVTI3QjNwQkUyUXczampRZ0dBZnViN1BqYUVtQytDTmlGOTQyQTBEMGlka2R0QzU2cHZHb3N0T2xqTVBCc1R6YXBzSVp4RWxcL2kxVlRzbXVSRmMyQkRCcmp5VW9NRlYraHZ6d3RxZmI4a1U0c002SUJwQ1VKNGJvbUcwTzBVb1VidDEwdnFkeTFSdWxcL1dmY0hhRW9zZmNHSENMVVpmTmZ2TzVQNytReXN2RkJpN1UxNzQrRjRIZG9RRXVDdUxRdmVhYWo4TFRQVUVZV0NZZkFcL3NSU0hUcCtTdG5ldDRSV3MxMHY4eVBuKzBzNVVDbUNLXC9RQmFMWWlObElGT3EzbFZpUzRQaVA2MzdvZEtpUDl4ZnlwTGxrZz09In1d";
+
+        if (!Util.matchId(context)) {
+            Toast.makeText(context, "This device is not authorized to run the app.", Toast.LENGTH_LONG).show();
+            //throw new InvalidConfigurationException("Not Registered");
+        }
+        else context.setLicenceKey(LICENCE_KEY);
+    }
+
+    public static void loginGate(Context context) {
+        if (!Util.matchId(context)) {
+            Toast.makeText(context, "This device is not authorized to run the app.", Toast.LENGTH_LONG).show();
+            //throw new InvalidConfigurationException("Not Registered");
+        }
+        else Toast.makeText(context, "GameChange Demo!", Toast.LENGTH_LONG).show();
     }
 }
