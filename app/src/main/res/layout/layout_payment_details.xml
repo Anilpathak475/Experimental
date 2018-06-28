@@ -22,7 +22,7 @@
                 android:id="@+id/txt_pay_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shailesh"
+                android:text="Giovanna Gilyard"
                 android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 

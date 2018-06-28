@@ -52,7 +52,7 @@
                         android:layout_centerVertical="true"
                         android:letterSpacing="-0.02"
                         android:lineSpacingExtra="5sp"
-                        android:text="Shailesh Tiwari"
+                        android:text="Giovanna Gilyard"
                         android:textColor="#4a4a4a"
                         android:textSize="16sp" />
 
@@ -76,7 +76,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/view_divider"
                         android:lineSpacingExtra="9sp"
-                        android:text="AED 1000 "
+                        android:text="AED 1500"
                         android:textColor="#9b9b9b"
                         android:textSize="16sp" />
 
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:text="26/05/18"
+                        android:text="25/06/2018"
                         android:textColor="#9b9b9b"
                         android:textSize="12sp" />
 

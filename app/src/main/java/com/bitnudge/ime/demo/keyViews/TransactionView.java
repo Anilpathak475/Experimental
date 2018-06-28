@@ -101,13 +101,13 @@ public class TransactionView implements KeyView, TransactionAdapter.ClickListene
         inProgress = true;
 
         Transaction transaction = new Transaction();
-        transaction.setName("Shailesh Tiwari");
+        transaction.setName("Giovanna Gilyard");
         transaction.setCard(new Card("1234", 1));
-        transaction.setAmount("1000");
+        transaction.setAmount("AED 1500");
         transaction.setNotes("-");
         transaction.setStatus("Successful");
         transaction.setDate(new Date());
-        transaction.setCurrency("USD");
+        transaction.setCurrency("");
 
         Util.makeTapSound(mCustomIme);
         customViewManager.showPaymentDetailsView(transaction);

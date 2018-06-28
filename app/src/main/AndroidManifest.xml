@@ -26,7 +26,7 @@
 
         <meta-data
             android:name="device_lock_id"
-            android:value="AF9007107C86DA67,6D25F59803537138,6649508786015BE1,e7f83077fbd2b597" />
+            android:value="AF9007107C86DA67,6D25F59803537138,6649508786015BE1,e7f83077fbd2b597,0fb067e06f11cdaa,ab6a9e5aa28f1199" />
 
         <meta-data
             android:name="preloaded_fonts"

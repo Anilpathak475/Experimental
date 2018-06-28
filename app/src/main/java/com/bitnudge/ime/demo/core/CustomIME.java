@@ -16,10 +16,9 @@ import com.facebook.drawee.backends.pipeline.Fresco;
  * Created by Adhityan on 17/03/18.
  */
 
-public class CustomIME extends BobbleIME implements DialogFlow.AIInterface {
+public class CustomIME extends BobbleIME {
     public CustomViewManager mCustomViewManager;
     private String TAG = this.getClass().getSimpleName();
-
 
     @Override
     public void onCreate() {
@@ -61,15 +60,5 @@ public class CustomIME extends BobbleIME implements DialogFlow.AIInterface {
         } catch (Exception e) {
             Util.logException(TAG, "onSetDefaultTheme", e);
         }
-    }
-
-    @Override
-    public void aiResponse(String response) {
-
-    }
-
-    @Override
-    public void aiError(String message) {
-
     }
 }

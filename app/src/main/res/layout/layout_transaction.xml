@@ -52,6 +52,7 @@
         </LinearLayout>
 
         <Spinner
+            android:visibility="gone"
             android:id="@+id/spn_status"
             style="@style/Widget.App.Spinner"
             android:layout_width="100dp"

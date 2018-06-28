@@ -60,15 +60,16 @@ public class SelectBeneficiaryView implements KeyView, AdapterClickListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(mCustomIme));
 
         payees = new ArrayList<>();
-        payees.add(new PayToContainer("Adhityan", "1234 5678 9012 1223", R.drawable.hdfc));
-        payees.add(new PayToContainer("Braj", "1234 5678 9012 4545", R.drawable.rbs));
-        payees.add(new PayToContainer("Yug", "1234 5678 9012 9876", R.drawable.hdfc));
-        payees.add(new PayToContainer("Shailesh", "1234 5678 9012 5564", R.drawable.hsbc));
-        payees.add(new PayToContainer("Ulhas", "1234 5678 9012 5564", R.drawable.icici));
-        payees.add(new PayToContainer("Mohit", "1234 5678 9012 5564", R.drawable.rbs));
-        payees.add(new PayToContainer("Sumedh", "1234 5678 9012 5564", R.drawable.hdfc));
-        payees.add(new PayToContainer("Naveen", "1234 5678 9012 5564", R.drawable.hsbc));
-        payees.add(new PayToContainer("Sathish", "1234 5678 9012 5564", R.drawable.icici));
+        payees.add(new PayToContainer("Giovanna Gilyard", "1234 5678 9012 1223", R.drawable.hdfc));
+        payees.add(new PayToContainer("Alec Amend", "1234 5678 9012 4545", R.drawable.rbs));
+        payees.add(new PayToContainer("Jeffery Jesus", "5129 5678 9012 9876", R.drawable.hdfc));
+        payees.add(new PayToContainer("Tyler Timberlake", "1234 5678 9012 5564", R.drawable.hsbc));
+        payees.add(new PayToContainer("Vernia Vallo", "1289 5678 9012 5564", R.drawable.icici));
+        payees.add(new PayToContainer("Janine Jeter", "1728 5678 9012 5564", R.drawable.rbs));
+        payees.add(new PayToContainer("Kraig Kitzmiller", "1234 5678 9012 5564", R.drawable.hdfc));
+        payees.add(new PayToContainer("Merrilee Masten", "1820 5678 9012 5564", R.drawable.hsbc));
+        payees.add(new PayToContainer("Reyes Reeder", "1234 5678 9012 5564", R.drawable.icici));
+        payees.add(new PayToContainer("Clark Chien", "4783 5678 9012 5564", R.drawable.icici));
         recyclerView.setAdapter(new BeneficiaryAdapter(payees, this));
 
         inProgress = false;
