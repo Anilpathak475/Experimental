@@ -191,7 +191,7 @@ public class Util {
         final String LICENCE_KEY = "W3sicGFja2FnZSI6IkxBenZpdFwvUUNmZUY5Smdna1dVXC9hUkd3RERHVG9waXN0Z1RHZWVOR0RPdz0iLCJpZCI6Miwia2V5IjoiakpxcGRyelN3bHBhd1UraWViYTYrOERvTzYwbE53UGNoU1k3b25TaWp6NWZHWmpEVmFOZ0xqV0UwSnZiNVhKVTI3QjNwQkUyUXczampRZ0dBZnViN1BqYUVtQytDTmlGOTQyQTBEMGlka2R0QzU2cHZHb3N0T2xqTVBCc1R6YXBzSVp4RWxcL2kxVlRzbXVSRmMyQkRCcmp5VW9NRlYraHZ6d3RxZmI4a1U0c002SUJwQ1VKNGJvbUcwTzBVb1VidDEwdnFkeTFSdWxcL1dmY0hhRW9zZmNHSENMVVpmTmZ2TzVQNytReXN2RkJpN1UxNzQrRjRIZG9RRXVDdUxRdmVhYWo4TFRQVUVZV0NZZkFcL3NSU0hUcCtTdG5ldDRSV3MxMHY4eVBuKzBzNVVDbUNLXC9RQmFMWWlObElGT3EzbFZpUzRQaVA2MzdvZEtpUDl4ZnlwTGxrZz09In1d";
 
         if (!Util.matchId(context)) {
-            Toast.makeText(context, "This device is not authorized to run the app.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "This device can not run the app", Toast.LENGTH_LONG).show();
             //throw new InvalidConfigurationException("Not Registered");
         }
         else context.setLicenceKey(LICENCE_KEY);
@@ -199,9 +199,9 @@ public class Util {
 
     public static void loginGate(Context context) {
         if (!Util.matchId(context)) {
-            Toast.makeText(context, "This device is not authorized to run the app.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "This device can not run the app", Toast.LENGTH_LONG).show();
             //throw new InvalidConfigurationException("Not Registered");
         }
-        else Toast.makeText(context, "GameChange Demo!", Toast.LENGTH_LONG).show();
+        else Toast.makeText(context, "GameChange ENBD Demo!", Toast.LENGTH_LONG).show();
     }
 }

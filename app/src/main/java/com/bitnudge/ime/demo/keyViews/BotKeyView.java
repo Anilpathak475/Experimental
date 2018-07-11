@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -59,6 +60,7 @@ public class BotKeyView implements KeyView, MessageInput.InputListener, DialogFl
         chatMessage.setInputListener(this);
         chatMessage.getInputEditText().setOnClickListener(this);
         chatMessage.getInputEditText().setOnFocusChangeListener(this);
+        chatMessage.getInputEditText().setInputType(InputType.TYPE_CLASS_TEXT);
 
         adapter = new MessagesListAdapter<>("1", new ImageLoader() {
             @Override
