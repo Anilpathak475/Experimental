@@ -3,13 +3,15 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.bitnudge.ime.demo"
+        applicationId "com.bitnudge.ime.moneygram"
 
         minSdkVersion 21
         targetSdkVersion 27
 
         versionCode 1
         versionName "1.0"
+
+        resValue "string", "authority", applicationId + 'com.android.inputmethod.dictionarypack.aosp'
     }
     buildTypes {
         release {

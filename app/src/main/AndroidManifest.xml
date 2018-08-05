@@ -3,7 +3,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bitnudge.ime.demo">
+    package="com.bitnudge.ime.moneygram">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -26,13 +26,17 @@
 
         <meta-data
             android:name="device_lock_id"
-            android:value="AF9007107C86DA67,6D25F59803537138,6649508786015BE1,e7f83077fbd2b597,0fb067e06f11cdaa,ab6a9e5aa28f1199" />
+            android:value="all" />
+
+        <meta-data
+            android:name="date_lock_expiry"
+            android:value="18-08-2018" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name="com.bitnudge.ime.demo.activities.DemoActivity"
+        <activity android:name="com.bitnudge.ime.moneygram.activities.DemoActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -41,7 +45,7 @@
         </activity>
 
         <!-- Services -->
-        <service android:name="com.bitnudge.ime.demo.core.CustomIME"
+        <service android:name="com.bitnudge.ime.moneygram.core.CustomIME"
             android:label="@string/english_ime_name"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
