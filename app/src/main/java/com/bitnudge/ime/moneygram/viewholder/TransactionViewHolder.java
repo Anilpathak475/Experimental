@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 
 public class TransactionViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.txt_name)
-    public TextView txtName;
+    TextView txtName;
 
     @BindView(R.id.layout_parent)
     public CardView layoutParent;
@@ -25,16 +25,18 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
     public TextView txtPeriod;
 
     @BindView(R.id.txt_amount)
-    public TextView txtAmount;
+    TextView txtAmount;
 
     @BindView(R.id.txt_date)
-    public TextView txtDate;
+    TextView txtDate;
 
     @BindView(R.id.txt_status)
-    public TextView txtStatus;
+    TextView txtStatus;
 
     public TransactionViewHolder(final View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
+
+
 }

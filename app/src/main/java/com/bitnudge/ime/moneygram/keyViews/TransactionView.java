@@ -14,12 +14,12 @@ import com.bitnudge.ime.moneygram.adapter.TransactionAdapter;
 import com.bitnudge.ime.moneygram.core.CustomIME;
 import com.bitnudge.ime.moneygram.core.CustomViewManager;
 import com.bitnudge.ime.moneygram.interfaces.KeyView;
+import com.bitnudge.ime.moneygram.interfaces.TransactionInterface;
 import com.bitnudge.ime.moneygram.libs.Util;
-import com.bitnudge.ime.moneygram.model.Card;
 import com.bitnudge.ime.moneygram.model.Transaction;
+import com.bitnudge.ime.moneygram.store.TransactionStore;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,7 +58,7 @@ public class TransactionView implements KeyView, TransactionAdapter.ClickListene
         unbinder = ButterKnife.bind(this, v);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this.mCustomIme));
-        recyclerView.setAdapter(new TransactionAdapter(new ArrayList<Transaction>(), this));
+
 
         List<String> status = new ArrayList<>();
         status.add("Pending");
@@ -68,10 +68,29 @@ public class TransactionView implements KeyView, TransactionAdapter.ClickListene
 
         inProgress = false;
         spnStatus.setEnabled(false);
+        getHistory();
     }
 
     public static TransactionView getInstance(CustomViewManager customViewManager) {
         return new TransactionView(customViewManager);
+    }
+
+    private void getHistory() {
+        TransactionStore.getInstance().getTransactionHistory(customViewManager.getUserDetails().getAccesTokenInfo().getAccess_token(), new TransactionInterface() {
+            @Override
+            public void onSuccess(List<Transaction> transactions) {
+                setAdapter(transactions);
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
+    }
+
+    private void setAdapter(List<Transaction> transactions) {
+        recyclerView.setAdapter(new TransactionAdapter(transactions, this));
     }
 
     @Override
@@ -96,18 +115,9 @@ public class TransactionView implements KeyView, TransactionAdapter.ClickListene
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(Transaction transaction) {
         if (inProgress) return;
         inProgress = true;
-
-        Transaction transaction = new Transaction();
-        transaction.setName("Giovanna Gilyard");
-        transaction.setCard(new Card("1234", 1));
-        transaction.setAmount("AED 1500");
-        transaction.setNotes("-");
-        transaction.setStatus("Successful");
-        transaction.setDate(new Date());
-        transaction.setCurrency("");
 
         Util.makeTapSound(mCustomIme);
         customViewManager.showPaymentDetailsView(transaction);

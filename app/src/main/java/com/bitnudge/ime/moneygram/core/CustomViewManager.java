@@ -16,6 +16,7 @@ import com.bitnudge.ime.moneygram.keyViews.TransactionView;
 import com.bitnudge.ime.moneygram.libs.Util;
 import com.bitnudge.ime.moneygram.model.PayToContainer;
 import com.bitnudge.ime.moneygram.model.Transaction;
+import com.bitnudge.ime.moneygram.model.UserDetails;
 
 /**
  * Created by Adhityan on 17/03/18.
@@ -28,6 +29,7 @@ public class CustomViewManager {
     private KeyView view;
     private SelectionView selectionView;
     private SelectedHeaderView headerView;
+    private UserDetails userDetails;
 
     public CustomViewManager(CustomIME customIME) {
         mCustomIme = customIME;
@@ -135,6 +137,18 @@ public class CustomViewManager {
         Util.showView(mCustomIme, view.getView());
     }
 
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    public UserDetails getUserDetails() {
+        if (userDetails != null) {
+            return userDetails;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
     public void showMenuView() {
         destroyViews();
         showSelectedBar("What do you want to do?", R.drawable.unimoni);
@@ -150,7 +164,8 @@ public class CustomViewManager {
         view = SelectBeneficiaryView.getInstance(this);
         try {
             mCustomIme.showCustomView(view.getView());
+        } catch (Exception e) {
+            Util.logException(TAG, "showSelectBenefciaryView", e);
         }
-        catch (Exception e) { Util.logException(TAG, "showSelectBenefciaryView", e); }
     }
 }

@@ -25,10 +25,13 @@ import com.bitnudge.ime.moneygram.R;
 import com.bitnudge.ime.moneygram.core.CustomIME;
 import com.crashlytics.android.Crashlytics;
 
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Adhityan on 3/20/18.
@@ -249,4 +252,12 @@ public class Util {
         }
         else Toast.makeText(context, "GameChange Moneygram Demo!", Toast.LENGTH_LONG).show();
     }
+
+    public static Map<String, String> getHeader(String authToken, String macId) {
+        Field[] fields = Build.VERSION_CODES.class.getFields();
+        Map<String, String> headerMap = new HashMap<>();
+
+        return headerMap;
+    }
+
 }

@@ -11,7 +11,11 @@ import com.bitnudge.ime.moneygram.R;
 import com.bitnudge.ime.moneygram.core.CustomIME;
 import com.bitnudge.ime.moneygram.core.CustomViewManager;
 import com.bitnudge.ime.moneygram.interfaces.KeyView;
+import com.bitnudge.ime.moneygram.interfaces.LoginInterface;
 import com.bitnudge.ime.moneygram.libs.Util;
+import com.bitnudge.ime.moneygram.model.UserCredential;
+import com.bitnudge.ime.moneygram.model.UserDetails;
+import com.bitnudge.ime.moneygram.store.LoginStore;
 import com.bobblekeyboard.ime.BobbleEditText;
 
 import butterknife.BindView;
@@ -63,7 +67,7 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
 
     @OnClick(R.id.img_back)
     void onCLickBack() {
-        if(inProgress) return;
+        if (inProgress) return;
         inProgress = true;
 
         Util.makeTapSound(mCustomIme);
@@ -75,7 +79,7 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
 
     @OnClick(R.id.img_next)
     void onCLickNext() {
-        goForward();
+        getUserDetails();
     }
 
     @Override
@@ -106,7 +110,7 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if(hasFocus) {
+        if (hasFocus) {
             try {
                 switch (v.getId()) {
                     case R.id.edt_password:
@@ -123,14 +127,29 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            goForward();
+            getUserDetails();
             return true;
         }
 
         return false;
     }
 
-    private void goForward() {
+    private void getUserDetails() {
+        UserCredential userCredential = new UserCredential("anil@theprocedure.in", "Cullean*1");
+        LoginStore.getInstance().login(userCredential, new LoginInterface() {
+            @Override
+            public void onSuccess(UserDetails userDetails) {
+                goForward(userDetails);
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
+    }
+
+    private void goForward(UserDetails userDetails) {
         if (inProgress) return;
         inProgress = true;
 
@@ -144,6 +163,7 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
             }
 
             Util.hideView(mCustomIme, layoutParent);
+            customViewManager.setUserDetails(userDetails);
             customViewManager.showMenuView();
         } else {
             inProgress = false;

@@ -16,11 +16,11 @@ import java.util.List;
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
 
     private ClickListener clickListener;
-    private List<Transaction> pays;
+    private List<Transaction> transactions;
 
-    public TransactionAdapter(List<Transaction> pays, ClickListener clickListener) {
+    public TransactionAdapter(List<Transaction> transactions, ClickListener clickListener) {
         this.clickListener = clickListener;
-        this.pays = pays;
+        this.transactions = transactions;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransactionViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final TransactionViewHolder holder, final int position) {
         if (position % 2 == 0) {
             holder.layoutPeriod.setVisibility(View.VISIBLE);
             if (position == 0) {
@@ -46,7 +46,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
         holder.layoutParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(position);
+                clickListener.onItemClick(transactions.get(holder.getAdapterPosition()));
             }
         });
     }
@@ -58,6 +58,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
 
 
     public interface ClickListener {
-        void onItemClick(int position);
+        void onItemClick(Transaction transaction);
     }
 }
