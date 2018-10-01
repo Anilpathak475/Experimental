@@ -65,7 +65,7 @@ public class CustomViewManager {
 
     private void showSelectedBar(String title, int icon) {
         destroyViews();
-        //showSelectedBar("MPin", R.drawable.moneygram_logo);
+        //showSelectedBar("MPin", R.drawable.unimoni);
         headerView = SelectedHeaderView.getInstance(this, title, icon);
 
         try {
@@ -77,7 +77,7 @@ public class CustomViewManager {
 
     public void showMPinView() {
         destroyViews();
-        //showSelectedBar("MPin", R.drawable.moneygram_logo);
+        //showSelectedBar("MPin", R.drawable.unimoni);
         view = MPinView.getInstance(this);
 
         try {
@@ -89,7 +89,7 @@ public class CustomViewManager {
 
     public void showPayView(final PayToContainer payTo) {
         destroyViews();
-        showSelectedBar("Pay", R.drawable.moneygram_logo);
+        showSelectedBar("Pay", R.drawable.unimoni);
 
         view = PayView.getInstance(this, payTo);
         Util.showView(mCustomIme, view.getView());
@@ -105,7 +105,7 @@ public class CustomViewManager {
 
     public void showAddBeneficaryView() {
         destroyViews();
-        showSelectedBar("Add Beneficiary", R.drawable.moneygram_logo);
+        showSelectedBar("Add Beneficiary", R.drawable.unimoni);
 
         view = AddBeneficiaryView.getInstance(this);
         Util.showView(mCustomIme, view.getView());
@@ -113,7 +113,7 @@ public class CustomViewManager {
 
     private void showReceiverDetailView() {
         destroyViews();
-        showSelectedBar("Receiver Detail", R.drawable.moneygram_logo);
+        showSelectedBar("Receiver Detail", R.drawable.unimoni);
 
         view = RecevierDetailView.getInstance(this);
         Util.showView(mCustomIme, view.getView());
@@ -129,7 +129,7 @@ public class CustomViewManager {
 
     public void showPaymentDetailsView(Transaction transaction) {
         destroyViews();
-        showSelectedBar("Pay Status", R.drawable.moneygram_logo);
+        showSelectedBar("Pay Status", R.drawable.unimoni);
 
         view = PaymentDetailsView.getInstance(this, transaction);
         Util.showView(mCustomIme, view.getView());
@@ -137,7 +137,7 @@ public class CustomViewManager {
 
     public void showMenuView() {
         destroyViews();
-        showSelectedBar("What do you want to do?", R.drawable.moneygram_logo);
+        showSelectedBar("What do you want to do?", R.drawable.unimoni);
 
         view = MenuView.getInstance(this);
         Util.showView(mCustomIme, view.getView());
@@ -145,7 +145,7 @@ public class CustomViewManager {
 
     public void showSelectBenefciaryView() {
         destroyViews();
-        showSelectedBar("Who do you want to pay?", R.drawable.moneygram_logo);
+        showSelectedBar("Who do you want to pay?", R.drawable.unimoni);
 
         view = SelectBeneficiaryView.getInstance(this);
         try {

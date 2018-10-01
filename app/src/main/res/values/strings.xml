@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name">BitNudge Demo</string>
+    <string name="app_name">BitNudge MoneyKey</string>
     <string name="english_ime_name">MoneyKey</string>
 
     <string name="demo_header">Demo</string>

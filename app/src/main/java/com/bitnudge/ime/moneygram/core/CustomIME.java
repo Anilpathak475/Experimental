@@ -10,7 +10,10 @@ import com.bitnudge.ime.moneygram.libs.InvalidConfigurationException;
 import com.bitnudge.ime.moneygram.libs.Util;
 import com.bobblekeyboard.ime.BobbleIME;
 import com.bobblekeyboard.ime.BobbleIMETheme;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Adhityan on 17/03/18.
@@ -23,6 +26,7 @@ public class CustomIME extends BobbleIME {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         Util.loginGate(this);
         Fresco.initialize(this);

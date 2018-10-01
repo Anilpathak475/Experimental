@@ -1,5 +1,6 @@
 package com.bitnudge.ime.moneygram.libs;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.bitnudge.ime.moneygram.R;
 import com.bitnudge.ime.moneygram.core.CustomIME;
+import com.crashlytics.android.Crashlytics;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -159,14 +161,36 @@ public class Util {
         mNotificationManager.notify(0, mBuilder.build());
     }
 
-    private static boolean checkExpiry(Context context) {
+    @SuppressLint("HardwareIds")
+    public static String getDeviceId(Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public static String getExpiryDate(Context context) {
         try {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = app.metaData;
+            return bundle.getString("date_lock_expiry");
+        }
+        catch(Exception e) { Util.logException(TAG, "getExpiryDate failed", e); return null; }
+    }
 
-            String expiry_date = bundle.getString("date_lock_expiry");
+    public static String getLockIds(Context context) {
+        try {
+            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = app.metaData;
+            return bundle.getString("device_lock_id");
+        }
+        catch(Exception e) { Util.logException(TAG, "getLockIds failed", e); return null; }
+    }
+
+    private static boolean checkExpiry(Context context) {
+        try {
+            String expiry_date = getExpiryDate(context);
+            Crashlytics.setString("date_lock_expiry", expiry_date);
+
             if(expiry_date == null) return false;
-            //Util.logDebug(TAG, MessageFormat.format("Expired with: {0}", expiry_date));
+            //else Util.logDebug(TAG, MessageFormat.format("Expired with: {0}", expiry_date));
 
             expiry_date = expiry_date.trim();
             if(expiry_date.equalsIgnoreCase("none")) return true;
@@ -183,18 +207,17 @@ public class Util {
 
     private static boolean matchId(Context context) {
         try {
-            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = app.metaData;
+            final String android_id = getDeviceId(context);
+            Util.logDebug(TAG, MessageFormat.format("android id: {0}", android_id));
+            Crashlytics.setUserIdentifier(android_id);
 
-            String locked_id = bundle.getString("device_lock_id");
+            String locked_id = getLockIds(context);
+            Crashlytics.setString("device_lock_id", locked_id);
             if(locked_id == null) return false;
-            //Util.logDebug(TAG, MessageFormat.format("Bolted with: {0}", locked_id));
+            //else Util.logDebug(TAG, MessageFormat.format("Bolted with: {0}", locked_id));
 
             locked_id = locked_id.trim();
             if(locked_id.equalsIgnoreCase("all")) return checkExpiry(context);
-
-            final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            Util.logDebug(TAG, MessageFormat.format("android id: {0}", android_id));
 
             if(!locked_id.contains(",")) return android_id.equalsIgnoreCase(locked_id);
             else {

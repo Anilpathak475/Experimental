@@ -30,7 +30,11 @@
 
         <meta-data
             android:name="date_lock_expiry"
-            android:value="18-08-2018" />
+            android:value="none" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e322ed3391f37fc39a9770335afc80103898bff7" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -53,6 +57,5 @@
             </intent-filter>
             <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
-
     </application>
 </manifest>
