@@ -11,7 +11,7 @@ import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
 public interface LoginClient {
-    @POST("/api/v1/users/login/")
+    @POST("api/v1/users/login/")
     Call<UserDetails> login(@Body UserCredential userCredential);
 
 }

@@ -46,7 +46,10 @@ public class ClientGenerator {
         OkHttpClient client = httpClient.build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://d5consumerapi.qa.moneygram.com/services/mgo")
+/*
+                .baseUrl("https://a3d4f6ad-fa16-42d9-903f-5db066a762c6.mock.pstmn.io/d5consumerapi.qa.moneygram.com/services/mgo/")
+*/
+                .baseUrl("https://92564b04-6693-4b58-89d3-e6b61cdfcab8.mock.pstmn.io/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();

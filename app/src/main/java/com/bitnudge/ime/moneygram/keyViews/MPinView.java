@@ -11,11 +11,8 @@ import com.bitnudge.ime.moneygram.R;
 import com.bitnudge.ime.moneygram.core.CustomIME;
 import com.bitnudge.ime.moneygram.core.CustomViewManager;
 import com.bitnudge.ime.moneygram.interfaces.KeyView;
-import com.bitnudge.ime.moneygram.interfaces.LoginInterface;
 import com.bitnudge.ime.moneygram.libs.Util;
-import com.bitnudge.ime.moneygram.model.UserCredential;
 import com.bitnudge.ime.moneygram.model.UserDetails;
-import com.bitnudge.ime.moneygram.store.LoginStore;
 import com.bobblekeyboard.ime.BobbleEditText;
 
 import butterknife.BindView;
@@ -135,7 +132,8 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
     }
 
     private void getUserDetails() {
-        UserCredential userCredential = new UserCredential("anil@theprocedure.in", "Cullean*1");
+        goForward(new UserDetails());
+      /*  UserCredential userCredential = new UserCredential("anil@theprocedure.in", "Cullean*1");
         LoginStore.getInstance().login(userCredential, new LoginInterface() {
             @Override
             public void onSuccess(UserDetails userDetails) {
@@ -146,7 +144,7 @@ public class MPinView implements KeyView, View.OnClickListener, View.OnFocusChan
             public void onFailure(String error) {
 
             }
-        });
+        });*/
     }
 
     private void goForward(UserDetails userDetails) {

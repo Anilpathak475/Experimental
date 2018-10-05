@@ -10,9 +10,15 @@ import android.widget.TextView;
 import com.bitnudge.ime.moneygram.R;
 import com.bitnudge.ime.moneygram.core.CustomIME;
 import com.bitnudge.ime.moneygram.core.CustomViewManager;
+import com.bitnudge.ime.moneygram.interfaces.DetailTransactionCallback;
 import com.bitnudge.ime.moneygram.interfaces.KeyView;
+import com.bitnudge.ime.moneygram.libs.CalenderUtil;
 import com.bitnudge.ime.moneygram.libs.Util;
 import com.bitnudge.ime.moneygram.model.Transaction;
+import com.bitnudge.ime.moneygram.model.TransactionDetail;
+import com.bitnudge.ime.moneygram.store.TransactionStore;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,19 +71,25 @@ public class PaymentDetailsView  implements KeyView {
     private PaymentDetailsView(final CustomViewManager customViewManager, Transaction transaction) {
         this.mCustomIme = customViewManager.getContext();
         this.customViewManager = customViewManager;
-        this.transaction = transaction;
+
 
         LayoutInflater layoutInflater = LayoutInflater.from(mCustomIme);
         v = layoutInflater.inflate(R.layout.layout_payment_details, null);
         unbinder = ButterKnife.bind(this, v);
 
-        txtPayName.setText(transaction.getName());
-        txtCardNo.setText(transaction.getCard().getCardNo());
-        txtPaymentAmount.setText(transaction.getAmount());
+        getTransactionDetails(transaction);
+       /* txtCardNo.setText(transaction.get().getCardNo());*/
+
+
+    }
+
+    private void setValues(Transaction transaction) {
+        this.transaction = transaction;
+        txtPayName.setText(String.format("%s %s", transaction.getSenderFirstName(), transaction.getSenderLastName()));
+        txtPaymentAmount.setText(String.format(Locale.ENGLISH,"%d", transaction.getSendAmount()));
         txtStatus.setText(transaction.getStatus());
-        txtReason.setText(transaction.getNotes());
-        txtDate.setText(Util.getStringFromDate(transaction.getDate()));
-        //todo: set flag
+        txtReason.setText(String.format(Locale.ENGLISH,"%d", transaction.getAuthorizationId()));
+        txtDate.setText(CalenderUtil.getFormatedDateFromDate(transaction.getDateInitiated()));
     }
 
     public static PaymentDetailsView getInstance(CustomViewManager customViewManager, Transaction transaction) {
@@ -96,6 +108,20 @@ public class PaymentDetailsView  implements KeyView {
         Util.makeTapSound(mCustomIme);
         Util.hideView(mCustomIme, layoutParent);
         customViewManager.showBotView();
+    }
+
+    private void getTransactionDetails(final Transaction transaction) {
+        TransactionStore.getInstance().getDetailedTransaction(customViewManager.getUserDetails().getAccesTokenInfo().getAccess_token(), transaction, new DetailTransactionCallback() {
+            @Override
+            public void onSuccess(TransactionDetail transactionDetail) {
+                setValues(transactionDetail.getTransaction());
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
     }
 
     @OnClick(R.id.btn__update_info)

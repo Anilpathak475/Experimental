@@ -1,8 +1,12 @@
 package com.bitnudge.ime.moneygram.store;
 
 import com.bitnudge.ime.moneygram.client.TransactionClient;
+import com.bitnudge.ime.moneygram.interfaces.DetailTransactionCallback;
+import com.bitnudge.ime.moneygram.interfaces.ReceiverCallback;
 import com.bitnudge.ime.moneygram.interfaces.TransactionInterface;
+import com.bitnudge.ime.moneygram.model.Recevicer;
 import com.bitnudge.ime.moneygram.model.Transaction;
+import com.bitnudge.ime.moneygram.model.TransactionDetail;
 import com.bitnudge.ime.moneygram.network.ClientGenerator;
 
 import java.util.List;
@@ -38,6 +42,46 @@ public class TransactionStore {
             @Override
             public void onFailure(Call<List<Transaction>> call, Throwable t) {
                 transactionInterface.onFailure("" + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void getDetailedTransaction(String token, Transaction transaction, final DetailTransactionCallback detailTransactionCallback) {
+        TransactionClient transactionClient = clientGenerator.createClient(TransactionClient.class);
+        Call<TransactionDetail> call = transactionClient.getDetailedTransaction(token, transaction.getReferenceNumber(), transaction.getId(), transaction.getSenderLastName(), transaction.getOnlineTransaction());
+        call.enqueue(new Callback<TransactionDetail>() {
+            @Override
+            public void onResponse(Call<TransactionDetail> call, Response<TransactionDetail> response) {
+                if (response.isSuccessful()) {
+                    detailTransactionCallback.onSuccess(response.body());
+                } else {
+                    detailTransactionCallback.onFailure("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransactionDetail> call, Throwable t) {
+                detailTransactionCallback.onFailure("Error");
+            }
+        });
+    }
+
+    public void getPastReceivers(String token, final ReceiverCallback receiverCallback) {
+        TransactionClient transactionClient = clientGenerator.createClient(TransactionClient.class);
+        Call<Recevicer> call = transactionClient.getBeneficary(token);
+        call.enqueue(new Callback<Recevicer>() {
+            @Override
+            public void onResponse(Call<Recevicer> call, Response<Recevicer> response) {
+                if (response.isSuccessful()) {
+                    receiverCallback.onSuccess(response.body());
+                } else {
+                    receiverCallback.onFailure("something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Recevicer> call, Throwable t) {
+                receiverCallback.onFailure("something went wrong");
             }
         });
     }

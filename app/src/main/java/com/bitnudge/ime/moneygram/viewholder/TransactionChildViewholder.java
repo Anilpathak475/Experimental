@@ -11,32 +11,24 @@ import com.bitnudge.ime.moneygram.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TransactionViewHolder extends RecyclerView.ViewHolder {
+public class TransactionChildViewholder extends RecyclerView.ViewHolder {
     @BindView(R.id.txt_name)
-    TextView txtName;
-
-    @BindView(R.id.layout_parent)
-    public CardView layoutParent;
-
-    @BindView(R.id.layout_period)
-    public LinearLayout layoutPeriod;
-
-    @BindView(R.id.txt_period)
-    public TextView txtPeriod;
+    public TextView txtName;
 
     @BindView(R.id.txt_amount)
-    TextView txtAmount;
+    public TextView txtAmount;
 
     @BindView(R.id.txt_date)
-    TextView txtDate;
+    public TextView txtDate;
 
     @BindView(R.id.txt_status)
-    TextView txtStatus;
+    public TextView txtStatus;
 
-    public TransactionViewHolder(final View itemView) {
+    @BindView(R.id.layout_parent)
+    public CardView cardViewParent;
+
+    public TransactionChildViewholder(final View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
-
-
 }

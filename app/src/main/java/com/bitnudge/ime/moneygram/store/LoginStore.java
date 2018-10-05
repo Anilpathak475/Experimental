@@ -6,6 +6,8 @@ import com.bitnudge.ime.moneygram.model.UserCredential;
 import com.bitnudge.ime.moneygram.model.UserDetails;
 import com.bitnudge.ime.moneygram.network.ClientGenerator;
 
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,13 +32,13 @@ public class LoginStore {
                 if (response.isSuccessful()) {
                     loginInterface.onSuccess(response.body());
                 } else {
-                    loginInterface.onFailure(String.format("%d", response.code()));
+                    loginInterface.onFailure(String.format(Locale.ENGLISH, "%d", response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<UserDetails> call, Throwable t) {
-                loginInterface.onFailure(String.format("%d", t.getLocalizedMessage()));
+                loginInterface.onFailure(String.format(Locale.ENGLISH,"%d", t.getLocalizedMessage()));
 
             }
         });
